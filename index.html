@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agencia y Familia Élite Dorada | SUGO</title>
+  <meta name="description" content="Únete a la Agencia y Familia Élite Dorada en SUGO. Capacitación, acompañamiento y crecimiento en equipo.">
+  <meta name="theme-color" content="#7137ff">
+  <meta name="color-scheme" content="light">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Agencia y Familia Élite Dorada | SUGO">
+  <meta property="og:description" content="Capacitación, acompañamiento y crecimiento en equipo desde el primer día.">
+  <link rel="icon" href="assets/sugo-logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <div class="page-loader" id="pageLoader" aria-hidden="true">
+    <div class="loader-logo">SUGO</div>
+  </div>
+
+  <header class="site-header" id="inicio">
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="#inicio" aria-label="Ir al inicio">
+        <img src="assets/sugo-logo.png" alt="SUGO" class="brand-image">
+        <span>Agencia y Familia Élite Dorada <b>👑</b></span>
+      </a>
+
+      <button class="mobile-menu-button" id="mobileMenuButton" type="button"
+              aria-label="Abrir menú" aria-controls="mainMenu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="mainMenu">
+        <a href="#inicio" class="nav-link active">Inicio</a>
+        <a href="#beneficios" class="nav-link">Beneficios</a>
+        <a href="#capacitadoras" class="nav-link">Capacitadoras</a>
+        <a href="#requisitos" class="nav-link">Requisitos</a>
+        <a href="#preguntas" class="nav-link">Preguntas</a>
+        <a href="#unete" class="nav-link">Únete</a>
+      </div>
+
+      <button class="button button-white nav-button" type="button" data-open-join>
+        Quiero unirme <i data-lucide="heart" aria-hidden="true"></i>
+      </button>
+    </nav>
+
+    <div class="hero container">
+      <div class="hero-copy reveal">
+        <span class="hero-label"><i data-lucide="sparkles" aria-hidden="true"></i> Comunidad para mujeres mayores de 18 años</span>
+        <h1>Únete a nuestra Agencia y Familia en SUGO</h1>
+        <p class="hero-subtitle">Capacitación, apoyo y crecimiento en equipo desde el primer día.</p>
+        <p class="hero-description">
+          Aprende a utilizar la aplicación, participa en actividades y forma parte de una comunidad
+          organizada que te acompaña durante el proceso.
+        </p>
+
+        <div class="hero-actions">
+          <button class="button button-white" type="button" data-open-join>
+            <i data-lucide="message-circle" aria-hidden="true"></i> Unirme por WhatsApp
+          </button>
+          <a class="button button-glass" href="#beneficios">
+            Conocer beneficios <i data-lucide="arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <div class="hero-trust">
+          <span><i data-lucide="circle-check" aria-hidden="true"></i> Capacitación desde cero</span>
+          <span><i data-lucide="circle-check" aria-hidden="true"></i> Acompañamiento</span>
+          <span><i data-lucide="circle-check" aria-hidden="true"></i> Ambiente respetuoso</span>
+        </div>
+      </div>
+
+      <div class="hero-phone reveal" aria-label="Vista simulada de SUGO">
+        <span class="doodle doodle-heart">♡</span>
+        <span class="doodle doodle-arrow">↗</span>
+
+        <div class="phone-shell">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-status">
+              <strong>9:41</strong>
+              <span>● ◔ ▰</span>
+            </div>
+
+            <div class="app-header">
+              <span class="app-logo">SUGO</span>
+              <span>⌕　🔔</span>
+            </div>
+
+            <div class="app-tabs" role="tablist" aria-label="Secciones de demostración">
+              <button class="app-tab active" type="button" role="tab" aria-selected="true" data-app-tab="salas">Salas</button>
+              <button class="app-tab" type="button" role="tab" aria-selected="false" data-app-tab="amigos">Amigos</button>
+              <button class="app-tab" type="button" role="tab" aria-selected="false" data-app-tab="siguiendo">Siguiendo</button>
+            </div>
+
+            <div class="app-content active" data-app-panel="salas">
+              <div class="welcome-box">
+                <div>
+                  <strong>Bienvenida a SUGO</strong>
+                  <p>Conecta, diviértete y haz nuevas amigas 💜</p>
+                </div>
+                <span>👩🏻‍🤝‍👩🏽</span>
+              </div>
+
+              <div class="app-shortcuts">
+                <button type="button" data-demo-message="Chat disponible dentro de la aplicación."><b>💬</b><small>Chat</small></button>
+                <button type="button" data-demo-message="Aquí encontrarás las salas de voz."><b>🎙️</b><small>Salas</small></button>
+                <button type="button" data-demo-message="Consulta los eventos de la familia."><b>🗓️</b><small>Eventos</small></button>
+                <button type="button" data-demo-message="Participa en dinámicas y juegos."><b>🎮</b><small>Juegos</small></button>
+                <button type="button" data-demo-message="La familia puede organizar actividades PK."><b>⚔️</b><small>PK</small></button>
+              </div>
+
+              <div class="rooms-title">
+                <strong>Salas populares</strong>
+                <button type="button" data-demo-message="Esta es una demostración visual de la aplicación.">Ver todas ›</button>
+              </div>
+
+              <div class="room-list">
+                <button class="room" type="button" data-demo-message="Abriste la sala Café y charla.">
+                  <span class="room-icon">☕</span>
+                  <span><b>Café y charla</b><small>1.2K participantes</small></span>
+                  <i>◉</i>
+                </button>
+                <button class="room" type="button" data-demo-message="Abriste la sala Música y amigos.">
+                  <span class="room-icon">🎵</span>
+                  <span><b>Música y amigos</b><small>953 participantes</small></span>
+                  <i>◉</i>
+                </button>
+                <button class="room" type="button" data-demo-message="Abriste la sala Noche de chicas.">
+                  <span class="room-icon">💗</span>
+                  <span><b>Noche de chicas</b><small>768 participantes</small></span>
+                  <i>◉</i>
+                </button>
+              </div>
+            </div>
+
+            <div class="app-content" data-app-panel="amigos">
+              <div class="empty-phone-state">
+                <span>👭</span>
+                <strong>Conecta con nuevas amigas</strong>
+                <p>Tu equipo y tus capacitadoras aparecerán aquí.</p>
+                <button type="button" data-open-join>Conocer al equipo</button>
+              </div>
+            </div>
+
+            <div class="app-content" data-app-panel="siguiendo">
+              <div class="empty-phone-state">
+                <span>⭐</span>
+                <strong>Sigue tus salas favoritas</strong>
+                <p>Recibe avisos de actividades y capacitaciones.</p>
+                <button type="button" data-demo-message="Función demostrativa activada.">Activar avisos</button>
+              </div>
+            </div>
+
+            <div class="phone-navigation">
+              <button type="button" class="active" data-demo-message="Estás en Inicio.">⌂<small>Inicio</small></button>
+              <button type="button" data-demo-message="Explora nuevas salas y actividades.">⌕<small>Explorar</small></button>
+              <button type="button" class="phone-plus" data-open-join>+</button>
+              <button type="button" data-demo-message="No tienes mensajes nuevos en esta demostración.">▣<small>Mensajes</small></button>
+              <button type="button" data-demo-message="Completa tu perfil al entrar a la agencia.">♡<small>Perfil</small></button>
+            </div>
+          </div>
+        </div>
+        <div class="phone-scroll-hint" aria-hidden="true">
+          <i data-lucide="mouse" aria-hidden="true"></i>
+          <span>Usa la rueda para cambiar de pantalla</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <div class="platform-showcase">
+      <section class="intro-section container">
+        <div class="intro-copy reveal">
+          <span class="section-tag">Conoce la plataforma</span>
+          <h2>Tu entrada a SUGO, con una comunidad detrás.</h2>
+          <p>
+            SUGO conecta personas a través de salas de voz, chats y experiencias en vivo.
+            Nosotras convertimos ese primer paso en un proceso claro, acompañado y seguro.
+          </p>
+          <button class="text-button" type="button" data-open-modal="sugo">
+            Descubrir cómo funciona <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+          </button>
+          <div class="intro-proof" aria-label="Ventajas principales">
+            <span><b>01</b> Orientación real</span>
+            <span><b>02</b> Comunidad activa</span>
+            <span><b>03</b> Progreso acompañado</span>
+          </div>
+        </div>
+
+        <div class="platform-visual reveal" aria-label="Experiencia guiada dentro de SUGO">
+          <div class="visual-orbit orbit-one"></div>
+          <div class="visual-orbit orbit-two"></div>
+          <div class="visual-core">
+            <span class="visual-status"><i></i> Comunidad activa</span>
+            <img src="assets/sugo-logo.png" alt="SUGO">
+            <strong>Conecta. Aprende.<br>Crece acompañada.</strong>
+          </div>
+          <div class="visual-pill pill-top"><i data-lucide="mic-2" aria-hidden="true"></i><span><b>Salas en vivo</b><small>Participa y conecta</small></span></div>
+          <div class="visual-pill pill-bottom"><i data-lucide="users" aria-hidden="true"></i><span><b>Equipo contigo</b><small>Desde el primer día</small></span></div>
+          <span class="visual-spark spark-one">✦</span>
+          <span class="visual-spark spark-two">✦</span>
+        </div>
+      </section>
+
+      <section class="features-section container" id="beneficios">
+        <article class="feature-panel agency-panel reveal">
+          <div class="panel-topline"><span>01 · AGENCIA</span><i data-lucide="arrow-down-right" aria-hidden="true"></i></div>
+          <div class="panel-heading">
+            <span class="panel-icon"><i data-lucide="building-2" aria-hidden="true"></i></span>
+            <div>
+              <p>Tu guía dentro de la plataforma</p>
+              <h2>Dirección y respaldo</h2>
+            </div>
+          </div>
+          <p class="panel-summary">Te damos estructura, conocimiento y seguimiento para que avances con seguridad.</p>
+
+          <div class="feature-cards">
+            <article class="mini-card">
+              <span><i data-lucide="graduation-cap" aria-hidden="true"></i></span><small>01</small>
+              <h3>Capacitación clara</h3>
+              <p>Domina las funciones principales paso a paso.</p>
+              <button type="button" data-open-modal="capacitacion">Explorar <i data-lucide="arrow-right"></i></button>
+            </article>
+            <article class="mini-card">
+              <span><i data-lucide="messages-square" aria-hidden="true"></i></span><small>02</small>
+              <h3>Soporte cercano</h3>
+              <p>Resuelve tus dudas con personas reales.</p>
+              <button type="button" data-open-modal="acompanamiento">Explorar <i data-lucide="arrow-right"></i></button>
+            </article>
+            <article class="mini-card">
+              <span><i data-lucide="shield-check" aria-hidden="true"></i></span><small>03</small>
+              <h3>Proceso seguro</h3>
+              <p>Reglas claras, orden y comunicación constante.</p>
+              <button type="button" data-open-modal="organizacion">Explorar <i data-lucide="arrow-right"></i></button>
+            </article>
+          </div>
+        </article>
+
+        <article class="feature-panel family-panel reveal">
+          <div class="panel-topline"><span>02 · FAMILIA</span><i data-lucide="arrow-down-right" aria-hidden="true"></i></div>
+          <div class="panel-heading">
+            <span class="panel-icon"><i data-lucide="heart-handshake" aria-hidden="true"></i></span>
+            <div>
+              <p>Tu espacio para pertenecer</p>
+              <h2>Conexión y comunidad</h2>
+            </div>
+          </div>
+          <p class="panel-summary">Un entorno dinámico para compartir, participar y crecer junto a otras integrantes.</p>
+
+          <div class="feature-cards">
+            <article class="mini-card">
+              <span><i data-lucide="radio" aria-hidden="true"></i></span><small>01</small>
+              <h3>Salas y eventos</h3>
+              <p>Encuentros para conversar, aprender y destacar.</p>
+              <button type="button" data-open-modal="salas">Explorar <i data-lucide="arrow-right"></i></button>
+            </article>
+            <article class="mini-card">
+              <span><i data-lucide="gamepad-2" aria-hidden="true"></i></span><small>02</small>
+              <h3>Dinámicas activas</h3>
+              <p>Juegos y actividades que unen al equipo.</p>
+              <button type="button" data-open-modal="juegos">Explorar <i data-lucide="arrow-right"></i></button>
+            </article>
+            <article class="mini-card">
+              <span><i data-lucide="hand-heart" aria-hidden="true"></i></span><small>03</small>
+              <h3>Apoyo auténtico</h3>
+              <p>Una red en la que cada avance cuenta.</p>
+              <button type="button" data-open-modal="apoyo">Explorar <i data-lucide="arrow-right"></i></button>
+            </article>
+          </div>
+        </article>
+      </section>
+
+      <section class="work-section container">
+        <div class="journey-intro reveal">
+          <span class="section-tag">Así avanzamos</span>
+          <h2>Una ruta pensada para ti</h2>
+          <p>No llegas sola: cada etapa tiene orientación y un objetivo claro.</p>
+        </div>
+        <div class="journey-grid">
+          <article class="work-card reveal"><b>01</b><span class="work-icon"><i data-lucide="sparkles"></i></span><h3>Comienza desde cero</h3><p>Sin experiencia previa.</p></article>
+          <article class="work-card reveal"><b>02</b><span class="work-icon"><i data-lucide="book-open-check"></i></span><h3>Aprende a tu ritmo</h3><p>Guías claras y prácticas.</p></article>
+          <article class="work-card reveal"><b>03</b><span class="work-icon"><i data-lucide="heart-handshake"></i></span><h3>Recibe seguimiento</h3><p>Siempre tendrás apoyo.</p></article>
+          <article class="work-card reveal"><b>04</b><span class="work-icon"><i data-lucide="trending-up"></i></span><h3>Crece con el equipo</h3><p>Celebramos tus avances.</p></article>
+        </div>
+      </section>
+    </div>
+
+    <section class="benefits-banner">
+      <div class="container benefits-layout">
+        <div class="benefits-copy reveal">
+          <span class="section-tag light">Beneficios de unirte</span>
+          <h2>Un equipo preparado para ayudarte desde el primer día</h2>
+          <p>Selecciona cada beneficio para conocer cómo funciona.</p>
+        </div>
+
+        <div class="benefit-buttons reveal">
+          <button type="button" data-benefit="Apoyo desde el primer día|Te orientamos durante tu ingreso y tus primeras actividades.">✓ Apoyo desde el primer día</button>
+          <button type="button" data-benefit="Capacitadoras disponibles|Podrás consultar dudas con las responsables de capacitación.">✓ Capacitadoras disponibles</button>
+          <button type="button" data-benefit="Actividades y dinámicas|Participarás en salas, eventos y actividades del equipo.">✓ Actividades y dinámicas</button>
+          <button type="button" data-benefit="Aprendizaje paso a paso|La información se explica de manera sencilla y progresiva.">✓ Aprendizaje paso a paso</button>
+          <button type="button" data-benefit="Ambiente sano y unido|Se aplican reglas de respeto y convivencia.">✓ Ambiente sano y unido</button>
+          <button type="button" data-benefit="Integración a la familia|Podrás formar parte de las actividades internas de la familia.">✓ Integración a la familia</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="trainers-section container" id="capacitadoras">
+      <div class="section-heading reveal">
+        <div>
+          <span class="section-tag">Acompañamiento humano</span>
+          <h2>Conoce a nuestras capacitadoras <i data-lucide="heart" aria-hidden="true"></i></h2>
+          <p>Mujeres líderes que te acompañarán en tu crecimiento dentro de SUGO.</p>
+        </div>
+        <button class="button button-outline-gradient" type="button" data-open-modal="todas-capacitadoras">
+          Ver todas
+        </button>
+      </div>
+
+      <div class="trainer-grid">
+        <article class="trainer-card reveal">
+          <img src="assets/ana.webp" alt="Capacitadora Ana">
+          <div class="trainer-content">
+            <span class="trainer-role">Orientación inicial</span>
+            <h3>Capacitadora Ana</h3>
+            <p>Te ayuda con el registro, configuración y uso básico de la aplicación.</p>
+            <div class="trainer-actions">
+              <button type="button" data-trainer="Ana">Conocer su función</button>
+              <button type="button" data-open-join data-preferred-trainer="Ana">Elegir capacitadora</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="trainer-card reveal">
+          <img src="assets/valeria.webp" alt="Capacitadora Valeria">
+          <div class="trainer-content">
+            <span class="trainer-role">Dinámicas y salas</span>
+            <h3>Capacitadora Valeria</h3>
+            <p>Te explica cómo participar en salas, eventos y actividades del equipo.</p>
+            <div class="trainer-actions">
+              <button type="button" data-trainer="Valeria">Conocer su función</button>
+              <button type="button" data-open-join data-preferred-trainer="Valeria">Elegir capacitadora</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="trainer-card reveal">
+          <img src="assets/camila.webp" alt="Capacitadora Camila">
+          <div class="trainer-content">
+            <span class="trainer-role">Seguimiento diario</span>
+            <h3>Capacitadora Camila</h3>
+            <p>Realiza seguimiento, resuelve dudas y acompaña tu progreso.</p>
+            <div class="trainer-actions">
+              <button type="button" data-trainer="Camila">Conocer su función</button>
+              <button type="button" data-open-join data-preferred-trainer="Camila">Elegir capacitadora</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="requirements-section container" id="requisitos">
+      <article class="requirements-card reveal">
+        <span class="section-tag">Perfil de ingreso</span>
+        <h2>¿A quiénes buscamos?</h2>
+        <p>Mujeres responsables, respetuosas y con disposición para aprender.</p>
+        <div class="profile-grid">
+          <button type="button" data-demo-message="El ingreso está dirigido únicamente a personas mayores de 18 años."><b>18+</b><span>Mayores de edad</span></button>
+          <button type="button" data-demo-message="No necesitas experiencia previa; recibirás capacitación."><b>📖</b><span>Ganas de aprender</span></button>
+          <button type="button" data-demo-message="La responsabilidad ayuda a mantener una buena organización."><b>🛡️</b><span>Responsables</span></button>
+          <button type="button" data-demo-message="El respeto es una regla principal dentro del equipo."><b>♡</b><span>Respetuosas</span></button>
+        </div>
+      </article>
+
+      <article class="requirements-card reveal">
+        <span class="section-tag">Lista de verificación</span>
+        <h2>Requisitos para ingresar</h2>
+        <div class="checklist" id="requirementsChecklist">
+          <label><input type="checkbox"><span>Documento de identidad válido</span></label>
+          <label><input type="checkbox"><span>Celular con conexión a internet</span></label>
+          <label><input type="checkbox"><span>Cumplir las normas de SUGO</span></label>
+          <label><input type="checkbox"><span>Participar en capacitaciones</span></label>
+          <label><input type="checkbox"><span>Actitud positiva y respetuosa</span></label>
+          <label><input type="checkbox"><span>Disposición para trabajar en equipo</span></label>
+        </div>
+        <div class="check-progress">
+          <div><span id="checkProgressBar"></span></div>
+          <p><strong id="checkProgressText">0 de 6</strong> requisitos marcados</p>
+        </div>
+      </article>
+
+      <article class="requirements-card reasons-card reveal">
+        <span class="section-tag">Nuestra diferencia</span>
+        <h2>¿Por qué unirte?</h2>
+        <button type="button" class="reason active" data-reason-text="Te guiamos durante el proceso de ingreso y aprendizaje.">
+          <span>🤝</span><div><b>Acompañamiento real</b><small>No estás sola durante el proceso.</small></div>
+        </button>
+        <button type="button" class="reason" data-reason-text="Formarás parte de un grupo que participa y se apoya con respeto.">
+          <span>👥</span><div><b>Comunidad unida</b><small>Avanzamos apoyándonos como equipo.</small></div>
+        </button>
+        <button type="button" class="reason" data-reason-text="Aprenderás nuevas funciones y mejorarás progresivamente.">
+          <span>📈</span><div><b>Crecimiento constante</b><small>Aprendes y avanzas a tu ritmo.</small></div>
+        </button>
+        <p class="reason-detail" id="reasonDetail">Te guiamos durante el proceso de ingreso y aprendizaje.</p>
+      </article>
+    </section>
+
+    <section class="faq-section" id="preguntas">
+      <div class="container faq-layout">
+        <div class="faq-intro reveal">
+          <span class="section-tag light">Preguntas frecuentes</span>
+          <h2>Resuelve tus dudas antes de unirte</h2>
+          <p>Abre cada pregunta para revisar la información.</p>
+          <button class="button button-white" type="button" data-open-join>Hablar con la agencia</button>
+        </div>
+
+        <div class="accordion reveal">
+          <article class="faq-item">
+            <button type="button" aria-expanded="false">
+              ¿Necesito experiencia previa? <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>No. La agencia brinda orientación inicial y capacitación paso a paso.</p>
+            </div>
+          </article>
+          <article class="faq-item">
+            <button type="button" aria-expanded="false">
+              ¿Debo ser mayor de edad? <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Sí. La invitación está dirigida únicamente a mujeres de 18 años o más.</p>
+            </div>
+          </article>
+          <article class="faq-item">
+            <button type="button" aria-expanded="false">
+              ¿La agencia garantiza ingresos? <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>No se garantizan ingresos fijos. Los resultados dependen de la participación, constancia y reglas de la plataforma.</p>
+            </div>
+          </article>
+          <article class="faq-item">
+            <button type="button" aria-expanded="false">
+              ¿Cómo solicito información? <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Completa el formulario de la página y se preparará un mensaje para enviarlo por WhatsApp.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="join-section" id="unete">
+      <div class="container join-layout">
+        <div class="join-copy reveal">
+          <img src="assets/equipo.webp" alt="Equipo de la Agencia y Familia Élite Dorada">
+          <div>
+            <span class="section-tag light">Da el primer paso</span>
+            <h2>Únete hoy a nuestra agencia y familia</h2>
+            <p>Completa tus datos y prepara tu mensaje para recibir información.</p>
+            <ul>
+              <li>Orientación inicial</li>
+              <li>Capacitación paso a paso</li>
+              <li>Integración a la familia</li>
+            </ul>
+          </div>
+        </div>
+
+        <form class="join-form reveal" id="joinForm" novalidate>
+          <div class="form-heading">
+            <h3>Solicitud de información</h3>
+            <p>Los campos marcados con * son obligatorios.</p>
+          </div>
+
+          <div class="form-grid">
+            <label class="field">
+              <span>Nombre o apodo *</span>
+              <input type="text" name="name" autocomplete="name" maxlength="50" required placeholder="Ejemplo: María">
+              <small class="field-error"></small>
+            </label>
+
+            <label class="field">
+              <span>Edad *</span>
+              <input type="number" name="age" min="18" max="99" required placeholder="18">
+              <small class="field-error"></small>
+            </label>
+
+            <label class="field">
+              <span>País *</span>
+              <select name="country" required>
+                <option value="">Selecciona tu país</option>
+                <option>Perú</option>
+                <option>Colombia</option>
+                <option>Venezuela</option>
+                <option>Chile</option>
+                <option>Ecuador</option>
+                <option>Argentina</option>
+                <option>México</option>
+                <option>España</option>
+                <option>Otro</option>
+              </select>
+              <small class="field-error"></small>
+            </label>
+
+            <label class="field">
+              <span>Número de WhatsApp *</span>
+              <input type="tel" name="phone" inputmode="tel" maxlength="18" required placeholder="+51 999 999 999">
+              <small class="field-error"></small>
+            </label>
+
+            <label class="field">
+              <span>Experiencia en SUGO</span>
+              <select name="experience">
+                <option value="No tengo experiencia">No tengo experiencia</option>
+                <option value="Ya tengo una cuenta">Ya tengo una cuenta</option>
+                <option value="He participado antes">He participado antes</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Capacitadora preferida</span>
+              <select name="trainer" id="trainerSelect">
+                <option value="Cualquiera">Cualquiera</option>
+                <option value="Ana">Ana</option>
+                <option value="Valeria">Valeria</option>
+                <option value="Camila">Camila</option>
+              </select>
+            </label>
+
+            <label class="field field-full">
+              <span>¿Qué deseas aprender?</span>
+              <textarea name="message" rows="3" maxlength="240" placeholder="Cuéntanos brevemente qué información necesitas."></textarea>
+              <small class="character-count"><span id="messageCount">0</span>/240</small>
+            </label>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" name="consent" required>
+            <span>Confirmo que soy mayor de 18 años y acepto recibir información por WhatsApp. *</span>
+          </label>
+          <small class="consent-error" id="consentError"></small>
+
+          <div class="form-actions">
+            <button class="button button-white-purple" type="submit">
+              <span>◔</span> Preparar mensaje de WhatsApp
+            </button>
+            <button class="button button-secondary" type="button" id="clearFormButton">
+              Limpiar formulario
+            </button>
+          </div>
+
+          <p class="legal-note">
+            No prometemos ingresos fijos. La participación está sujeta a las normas oficiales de SUGO.
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-layout">
+      <div class="footer-brand">
+        <img src="assets/sugo-logo.png" alt="SUGO">
+        <p>Agencia y Familia Élite Dorada 👑</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#beneficios">Beneficios</a>
+        <a href="#capacitadoras">Capacitadoras</a>
+        <a href="#requisitos">Requisitos</a>
+        <a href="#preguntas">Preguntas</a>
+        <a href="#unete">Únete</a>
+      </div>
+
+  <div class="footer-message">
+        <i data-lucide="heart-handshake" aria-hidden="true"></i>
+        <p>Crecemos juntas con respeto,<br>apoyo y organización.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="floating-whatsapp" type="button" data-open-join aria-label="Abrir formulario de inscripción">
+    <i data-lucide="message-circle" aria-hidden="true"></i>
+    <small>Únete</small>
+  </button>
+
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Volver arriba"><i data-lucide="arrow-up" aria-hidden="true"></i></button>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog class="info-modal" id="infoModal">
+    <button class="modal-close" type="button" data-close-modal aria-label="Cerrar">×</button>
+    <div class="modal-icon" id="modalIcon">✦</div>
+    <h2 id="modalTitle">Información</h2>
+    <p id="modalText"></p>
+    <div class="modal-actions">
+      <button class="button button-gradient" type="button" data-open-join>Solicitar información</button>
+      <button class="button button-muted" type="button" data-close-modal>Cerrar</button>
+    </div>
+  </dialog>
+
+  <dialog class="join-dialog" id="joinDialog">
+    <button class="modal-close" type="button" data-close-join aria-label="Cerrar">×</button>
+    <span class="section-tag">Únete a Élite Dorada</span>
+    <h2>¿Lista para recibir información?</h2>
+    <p>Completa el formulario y prepararemos tu mensaje para WhatsApp.</p>
+    <div class="dialog-actions">
+      <button class="button button-gradient" type="button" id="goToFormButton">Completar formulario</button>
+      <button class="button button-muted" type="button" id="quickWhatsappButton">Enviar mensaje rápido</button>
+    </div>
+  </dialog>
+
+  <script src="https://unpkg.com/lucide@0.514.0/dist/umd/lucide.min.js"></script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+  <script src="motion.js"></script>
+</body>
+</html>
