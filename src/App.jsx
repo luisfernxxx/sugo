@@ -139,7 +139,7 @@ export default function App() {
           <PlatformSection openInfo={openInfo} />
           <BenefitsSection />
           <TrainersSection openJoin={openJoin} openTrainer={openTrainer} />
-          <RequirementsSection notify={notify} />
+          <RequirementsSection notify={notify} openJoin={openJoin} />
           <FAQSection openJoin={openJoin} />
           <JoinSection preferredTrainer={preferredTrainer} trainerSelectionKey={trainerSelectionKey} submitForm={submitForm} notify={notify} />
         </main>

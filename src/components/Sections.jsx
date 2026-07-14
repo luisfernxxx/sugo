@@ -98,6 +98,26 @@ const trainerDetails = [
   },
 ];
 
+const requirementIcons = [BadgeCheck, Radio, UserRoundCheck, GraduationCap, ShieldCheck, UsersRound];
+
+const reasonDetails = [
+  {
+    eyebrow: "Guía humana",
+    outcome: "Nunca tienes que descubrir cada paso por tu cuenta.",
+    highlights: ["Ingreso guiado", "Primeras experiencias"],
+  },
+  {
+    eyebrow: "Red de apoyo",
+    outcome: "Participas dentro de un equipo que comparte acuerdos y objetivos.",
+    highlights: ["Organización", "Convivencia respetuosa"],
+  },
+  {
+    eyebrow: "Progreso sostenible",
+    outcome: "Construyes seguridad y nuevas habilidades sin avanzar bajo presión.",
+    highlights: ["Aprendizaje gradual", "Seguimiento continuo"],
+  },
+];
+
 const platformTracks = [
   {
     id: "agency",
@@ -628,57 +648,157 @@ export function TrainersSection({ openJoin, openTrainer }) {
   );
 }
 
-export function RequirementsSection({ notify }) {
+export function RequirementsSection({ notify, openJoin }) {
   const [checked, setChecked] = useState([]);
   const [activeReason, setActiveReason] = useState(0);
-  const progress = (checked.length / requirements.length) * 100;
+  const reduceMotion = useReducedMotion();
+  const wasComplete = useRef(false);
+  const progress = requirements.length ? (checked.length / requirements.length) * 100 : 0;
+  const isComplete = requirements.length > 0 && checked.length === requirements.length;
+  const ActiveReasonIcon = iconMap[reasons[activeReason].icon];
+  const activeReasonDetail = reasonDetails[activeReason];
 
   const toggleRequirement = (index) => {
-    setChecked((current) => {
-      const next = current.includes(index) ? current.filter((item) => item !== index) : [...current, index];
-      if (next.length === requirements.length) window.setTimeout(() => notify("¡Excelente! Cumples con todos los requisitos principales."), 50);
-      return next;
-    });
+    setChecked((current) => current.includes(index) ? current.filter((item) => item !== index) : [...current, index]);
   };
 
+  useEffect(() => {
+    if (isComplete && !wasComplete.current) notify("¡Excelente! Revisaste todos los puntos principales.");
+    wasComplete.current = isComplete;
+  }, [isComplete, notify]);
+
+  const handleReasonKey = (event, index) => {
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const forward = event.key === "ArrowRight" || event.key === "ArrowDown";
+    const next = event.key === "Home"
+      ? 0
+      : event.key === "End"
+        ? reasons.length - 1
+        : (index + (forward ? 1 : -1) + reasons.length) % reasons.length;
+    setActiveReason(next);
+    window.requestAnimationFrame(() => document.getElementById(`reason-tab-${next}`)?.focus());
+  };
+
+  const handleRequirementsPointer = (event) => {
+    if (reduceMotion || event.pointerType !== "mouse") return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    event.currentTarget.style.setProperty("--requirements-x", `${((event.clientX - bounds.left) / bounds.width) * 100}%`);
+    event.currentTarget.style.setProperty("--requirements-y", `${((event.clientY - bounds.top) / bounds.height) * 100}%`);
+  };
+
+  const profileQualities = [
+    [Heart, "18+", "Mayor de edad"],
+    [BookOpenCheck, "Aprender", "Actitud abierta"],
+    [ShieldCheck, "Responsable", "Compromiso personal"],
+    [HeartHandshake, "Respeto", "Convivencia sana"],
+  ];
+
+  const progressMessage = isComplete
+    ? "Revisaste todos los puntos. Ya puedes conversar con la agencia."
+    : checked.length
+      ? `Has revisado ${checked.length} de ${requirements.length} puntos esenciales.`
+      : "Marca cada punto que ya tienes preparado.";
+
   return (
-    <section className="requirements-react" id="requisitos">
+    <section className="requirements-react requirements-experience" id="requisitos" aria-labelledby="requirements-title">
+      <div className="requirements-ambient requirements-ambient-a" aria-hidden="true" />
+      <div className="requirements-ambient requirements-ambient-b" aria-hidden="true" />
       <div className="wrap">
-        <SectionHeading align="center" eyebrow="Antes de comenzar" title="Todo lo que necesitas es más simple de lo que imaginas." text="No buscamos experiencia perfecta; buscamos disposición, responsabilidad y ganas de aprender." />
-        <div className="requirements-layout-react">
-          <Reveal className="profile-card-react">
-            <span className="card-label">PERFIL DE INGRESO</span>
-            <h3>¿Te identificas con nosotras?</h3><p>Este espacio está pensado para mujeres responsables, respetuosas y abiertas a aprender.</p>
-            <div className="profile-badges">
-              {[["18+", "Mayor de edad"], ["01", "Ganas de aprender"], ["02", "Actitud responsable"], ["03", "Trato respetuoso"]].map(([number, text]) => <div key={text}><strong>{number}</strong><span>{text}</span></div>)}
-            </div>
-            <div className="profile-seal"><UserRoundCheck /><span><small>NO NECESITAS</small><strong>Experiencia previa</strong></span></div>
+        <div className="requirements-heading-v2">
+          <Reveal className="requirements-heading-copy-v2">
+            <Eyebrow>Antes de comenzar · Paso 03</Eyebrow>
+            <h2 id="requirements-title">Tu punto de partida, claro desde el <span>primer vistazo.</span></h2>
+            <p>Revisa los puntos esenciales y descubre el acompañamiento disponible antes de iniciar. No necesitas experiencia previa.</p>
           </Reveal>
-
-          <Reveal className="checklist-card-react" delay={0.08}>
-            <div className="checklist-heading"><span className="card-label">LISTA DE VERIFICACIÓN</span><strong>{checked.length}/{requirements.length}</strong></div>
-            <h3>Requisitos para ingresar</h3>
-            <div className="checklist-react">
-              {requirements.map((item, index) => (
-                <button type="button" aria-pressed={checked.includes(index)} className={checked.includes(index) ? "checked" : ""} onClick={() => toggleRequirement(index)} key={item}>
-                  <span>{checked.includes(index) && <Check />}</span>{item}
-                </button>
-              ))}
-            </div>
-            <div className="checklist-progress"><div role="progressbar" aria-label="Progreso de requisitos" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(progress)}><i style={{ width: `${progress}%` }} /></div><span><b>{Math.round(progress)}%</b> completado</span></div>
-          </Reveal>
-
-          <Reveal className="reasons-card-react" delay={0.16}>
-            <span className="card-label">NUESTRA DIFERENCIA</span><h3>¿Por qué Élite Dorada?</h3>
-            <div className="reason-tabs-react">
-              {reasons.map((reason, index) => {
-                const Icon = iconMap[reason.icon];
-                return <button type="button" aria-pressed={activeReason === index} className={activeReason === index ? "active" : ""} onClick={() => setActiveReason(index)} key={reason.title}><Icon /><span><b>{reason.title}</b><small>{String(index + 1).padStart(2, "0")}</small></span></button>;
-              })}
-            </div>
-            <AnimatePresence mode="wait"><motion.p key={activeReason} initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }}>{reasons[activeReason].text}</motion.p></AnimatePresence>
+          <Reveal className="requirements-summary-v2" delay={0.08}>
+            <div className="requirements-summary-ring" style={{ "--requirements-progress": `${progress * 3.6}deg` }} aria-hidden="true"><span>{checked.length}<small>/{requirements.length}</small></span></div>
+            <div><small>PUNTOS REVISADOS</small><strong>{isComplete ? "Tu preparación está completa." : "Avanza a tu propio ritmo."}</strong><span><i /> Sin experiencia previa</span></div>
+            <Sparkles />
           </Reveal>
         </div>
+
+        <Reveal className="requirements-console-wrap" delay={0.08}>
+          <div className={`requirements-console-v2 ${isComplete ? "is-complete" : ""}`} onPointerMove={handleRequirementsPointer}>
+            <div className="requirements-console-glow" aria-hidden="true" />
+            <header className="requirements-toolbar-v2">
+              <span><i /> AUTODIAGNÓSTICO PRIVADO</span>
+              <div><strong>Centro de preparación</strong><small>ÉLITE DORADA · INGRESO</small></div>
+              <button type="button" onClick={() => setChecked([])} disabled={!checked.length}>Reiniciar <span>{String(checked.length).padStart(2, "0")}/{String(requirements.length).padStart(2, "0")}</span></button>
+            </header>
+
+            <div className="requirements-grid-v2">
+              <section className="requirements-checklist-v2" aria-labelledby="requirements-checklist-title">
+                <div className="requirements-card-top-v2">
+                  <span><small>01</small><b>LISTA PRINCIPAL</b></span>
+                  <div className="requirements-progress-ring" style={{ "--requirements-progress": `${progress * 3.6}deg` }}><strong>{Math.round(progress)}%</strong></div>
+                </div>
+                <h3 id="requirements-checklist-title">Comprueba tu preparación</h3>
+                <p>Selecciona únicamente los puntos que ya tienes listos. Esta revisión es orientativa.</p>
+                <div className="requirements-check-grid">
+                  {requirements.map((item, index) => {
+                    const Icon = requirementIcons[index];
+                    const selected = checked.includes(index);
+                    return (
+                      <label className={selected ? "checked" : ""} key={item}>
+                        <input type="checkbox" checked={selected} onChange={() => toggleRequirement(index)} />
+                        <span className="requirement-checkmark">{selected && <motion.span initial={{ scale: reduceMotion ? 1 : 0.72, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}><Check /></motion.span>}</span>
+                        <span className="requirement-check-icon"><Icon /></span>
+                        <span><small>PUNTO {String(index + 1).padStart(2, "0")}</small><strong>{item}</strong></span>
+                      </label>
+                    );
+                  })}
+                </div>
+                <div className="requirements-progress-v2">
+                  <div role="progressbar" aria-label="Progreso de requisitos" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(progress)} aria-valuetext={`${checked.length} de ${requirements.length} puntos revisados`}><motion.i animate={{ scaleX: progress / 100 }} transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }} /></div>
+                  <span><b>{checked.length} de {requirements.length}</b> puntos revisados</span>
+                </div>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div className={`requirements-state-v2 ${isComplete ? "complete" : ""}`} role="status" aria-live="polite" key={isComplete ? "complete" : checked.length ? "progress" : "empty"} initial={{ opacity: 0, y: reduceMotion ? 0 : 7 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                    <span>{isComplete ? <BadgeCheck /> : <TrendingUp />}</span><div><small>{isComplete ? "REVISIÓN COMPLETA" : "TU AVANCE"}</small><strong>{progressMessage}</strong></div>
+                  </motion.div>
+                </AnimatePresence>
+                <button className="requirements-contact-v2" type="button" onClick={() => openJoin()}>Hablar con la agencia <ArrowRight /></button>
+              </section>
+
+              <section className="requirements-profile-v2" aria-labelledby="requirements-profile-title">
+                <div className="requirements-card-top-v2"><span><small>02</small><b>PERFIL DE INGRESO</b></span><UserRoundCheck /></div>
+                <h3 id="requirements-profile-title">Lo importante no está en tu experiencia.</h3>
+                <p>Buscamos disposición, responsabilidad y una forma respetuosa de crecer con otras personas.</p>
+                <div className="requirements-qualities-v2">
+                  {profileQualities.map(([Icon, title, text]) => <div key={title}><span><Icon /></span><div><strong>{title}</strong><small>{text}</small></div></div>)}
+                </div>
+                <div className="requirements-no-experience"><span><GraduationCap /></span><div><small>NO ES UN REQUISITO</small><strong>Tener experiencia previa</strong></div><BadgeCheck /></div>
+              </section>
+
+              <section className="requirements-reasons-v2" aria-labelledby="requirements-reasons-title">
+                <div className="requirements-card-top-v2"><span><small>03</small><b>NUESTRA DIFERENCIA</b></span><HeartHandshake /></div>
+                <h3 id="requirements-reasons-title">Lo que encuentras al ingresar</h3>
+                <div className="requirements-reason-tabs" role="tablist" aria-label="Razones para elegir Élite Dorada">
+                  {reasons.map((reason, index) => {
+                    const Icon = iconMap[reason.icon];
+                    const selected = activeReason === index;
+                    return <button id={`reason-tab-${index}`} type="button" role="tab" aria-selected={selected} aria-controls="reason-panel-active" tabIndex={selected ? 0 : -1} className={selected ? "active" : ""} onClick={() => setActiveReason(index)} onKeyDown={(event) => handleReasonKey(event, index)} key={reason.title}>{selected && <motion.i layoutId="requirement-reason-active" className="requirement-reason-active" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}<span><Icon /></span><small>0{index + 1}</small></button>;
+                  })}
+                </div>
+                <motion.article id="reason-panel-active" role="tabpanel" aria-labelledby={`reason-tab-${activeReason}`} tabIndex={0} className="requirements-reason-panel" key={activeReason} initial={{ opacity: 0, y: reduceMotion ? 0 : 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduceMotion ? 0 : 0.28 }}>
+                  <span className="requirements-reason-icon"><ActiveReasonIcon /></span>
+                  <small>{activeReasonDetail.eyebrow} · 0{activeReason + 1}</small>
+                  <h4>{reasons[activeReason].title}</h4>
+                  <p>{reasons[activeReason].text}</p>
+                  <div className="requirements-reason-highlights">{activeReasonDetail.highlights.map((item) => <span key={item}><CircleCheck />{item}</span>)}</div>
+                  <div className="requirements-reason-outcome"><BadgeCheck /><div><small>LO QUE SIGNIFICA PARA TI</small><strong>{activeReasonDetail.outcome}</strong></div></div>
+                </motion.article>
+              </section>
+            </div>
+
+            <footer className="requirements-footer-v2">
+              <span><ShieldCheck /> Autoevaluación orientativa</span>
+              <p>No enviamos ni guardamos tus selecciones. Esta lista solo te ayuda a conocer el punto de partida.</p>
+              <div><i className={checked.length > 0 ? "active" : ""}>01</i><span /><i className={isComplete ? "active" : ""}>02</i><span /><i className={activeReason >= 0 ? "active" : ""}>03</i></div>
+            </footer>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
