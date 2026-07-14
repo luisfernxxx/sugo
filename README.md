@@ -1,42 +1,30 @@
-# Landing page SUGO — versión funcional
+# SUGO — Agencia y Familia Élite Dorada
 
-Esta versión ya no utiliza una imagen completa como página. Es un frontend real construido con HTML, CSS y JavaScript.
+Landing page profesional construida con React y Vite.
 
-## Funcionalidades incluidas
+## Tecnología
 
-- Menú de navegación con desplazamiento y sección activa.
-- Menú móvil.
-- Botón flotante de inscripción.
-- Botón para volver arriba.
-- Vista simulada del teléfono con pestañas y acciones.
-- Tarjetas de agencia y familia con ventanas informativas.
-- Beneficios interactivos.
-- Tarjetas de capacitadoras con acciones.
-- Lista de requisitos con barra de progreso.
-- Bloque de razones interactivo.
-- Preguntas frecuentes tipo acordeón.
-- Formulario completo con validación.
-- Confirmación obligatoria de mayoría de edad.
-- Preparación automática de mensaje para WhatsApp.
-- Mensaje rápido por WhatsApp.
-- Diseño responsive.
-- Avisos emergentes y animaciones de entrada.
+- React 19.
+- Vite 8.
+- Motion para animaciones y transiciones.
+- Lucide React para iconografía SVG.
+- CSS responsive propio; iconos y animaciones se empaquetan con la aplicación.
 
-## Mejoras visuales profesionales
+## Funcionalidades
 
-- Iconos SVG consistentes con Lucide 0.514.0.
-- Microanimaciones y entradas escalonadas con Motion.
-- Efecto de profundidad interactivo en la vista del teléfono.
-- Estados hover y focus accesibles en botones y tarjetas.
-- Barra superior de progreso de lectura.
-- Compatibilidad con `prefers-reduced-motion` para reducir animaciones.
-- Metadatos sociales, favicon y enlace para saltar al contenido.
-
-Las librerías se cargan por CDN porque el proyecto es estático y no requiere Node.js. Si una librería externa no está disponible, la página conserva las transiciones CSS y toda su funcionalidad principal.
+- Hero con animación tipográfica por letras.
+- Teléfono 3D con navegación por pestañas y rueda del mouse.
+- Animaciones por scroll con soporte para movimiento reducido.
+- Paneles interactivos de agencia, familia y beneficios.
+- Tarjetas de capacitadoras.
+- Checklist de requisitos y selector de razones.
+- Preguntas frecuentes animadas.
+- Formulario validado que prepara un mensaje de WhatsApp.
+- Modales accesibles, avisos emergentes y navegación responsive.
 
 ## Configuración
 
-Abre `config.js` y cambia:
+Edita `config.js` y reemplaza el número de ejemplo:
 
 ```js
 whatsappNumber: "51999999999"
@@ -44,18 +32,32 @@ whatsappNumber: "51999999999"
 
 Usa código de país y número sin espacios ni el símbolo `+`.
 
-Ejemplo de Perú:
+## Desarrollo local
 
-```js
-whatsappNumber: "51987654321"
+```bash
+npm install
+npm run dev
 ```
 
-También puedes cambiar el nombre de la agencia y el mensaje rápido.
+Vite mostrará la dirección local, normalmente `http://localhost:5173`.
 
-## Abrir el proyecto
+## Compilación
 
-Haz doble clic en `index.html`.
+```bash
+npm run build
+npm run preview
+```
 
-## Publicar
+La versión lista para producción se genera en `dist/`.
 
-Sube toda la carpeta a Netlify, Vercel, GitHub Pages, cPanel o cualquier hosting estático.
+## Cloudflare Pages
+
+Configura el proyecto conectado a GitHub así:
+
+```text
+Production branch: main
+Build command: npm run build
+Build output directory: dist
+```
+
+Cada `push` a `main` generará y publicará automáticamente una nueva versión.
