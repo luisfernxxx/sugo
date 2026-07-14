@@ -80,9 +80,12 @@ export const trainers = [
   {
     name: "Camila",
     role: "Seguimiento diario",
-    image: "camila.webp",
+    image: "capacitadora-elite-dorada.png",
+    imageKind: "cutout",
+    imageWidth: 422,
+    imageHeight: 591,
     text: "Resuelve tus dudas, acompaña tu progreso y te ayuda a mantener una ruta clara.",
-    accent: "pink",
+    accent: "gold",
   },
 ];
 

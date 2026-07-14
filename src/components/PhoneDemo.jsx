@@ -19,7 +19,7 @@ import {
   Star,
   UsersRound,
 } from "lucide-react";
-import logo from "../../assets/sugo-logo.png";
+import agencyLogo from "../../assets/elite-dorada-logo.png";
 
 const tabs = ["Salas", "Amigas", "Siguiendo"];
 
@@ -179,7 +179,7 @@ export default function PhoneDemo({ notify, openJoin }) {
         <div className="react-phone-notch"><span /></div>
         <div className="react-phone-screen">
           <div className="react-phone-status"><strong>9:41</strong><span>● ◔ ▰</span></div>
-          <div className="react-app-header"><img src={logo} alt="SUGO" /><span><Search /><Bell /></span></div>
+          <div className="react-app-header"><img src={agencyLogo} alt="Élite Dorada" width="608" height="720" /><span><Search /><Bell /></span></div>
           <div className="react-app-tabs" role="tablist" aria-label="Pantallas de la demostración">
             {tabs.map((tab, index) => (
               <button

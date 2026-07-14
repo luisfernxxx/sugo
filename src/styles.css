@@ -1147,3 +1147,254 @@ svg { stroke-width: 1.9; }
 @media (prefers-reduced-motion:reduce) {
   .requirements-check-grid > label { transform:none!important; }
 }
+
+/* Élite Dorada brand system */
+:root {
+  --elite-gold-light:#f7dfa1;
+  --elite-gold:#d6a548;
+  --elite-gold-deep:#8f5b18;
+  --elite-gold-glow:rgba(214,165,72,.2);
+}
+
+.page-loader-react img {
+  width:auto;
+  height:168px;
+  object-fit:contain;
+  filter:drop-shadow(0 22px 38px rgba(214,165,72,.2));
+}
+
+.brand-button img {
+  width:auto;
+  height:62px;
+  flex:0 0 auto;
+  object-fit:contain;
+  filter:drop-shadow(0 10px 22px rgba(214,165,72,.22));
+}
+
+.brand-button strong { color:#fff9e9; }
+.brand-button small { color:rgba(247,223,161,.76); }
+
+.react-app-header img {
+  width:auto;
+  height:40px;
+  max-width:52px;
+  object-fit:contain;
+  filter:drop-shadow(0 5px 8px rgba(143,91,24,.18));
+}
+
+.footer-brand-react img {
+  width:auto;
+  height:76px;
+  flex:0 0 auto;
+  object-fit:contain;
+  filter:drop-shadow(0 12px 25px rgba(214,165,72,.18));
+}
+
+.hero-brand-watermark {
+  position:absolute;
+  z-index:1;
+  top:112px;
+  right:clamp(-190px,-7vw,-85px);
+  width:auto;
+  height:clamp(540px,52vw,760px);
+  opacity:.06;
+  object-fit:contain;
+  pointer-events:none;
+  user-select:none;
+  filter:saturate(.72) contrast(.94);
+  animation:eliteWatermarkDrift 13s ease-in-out infinite alternate;
+}
+
+.brand-watermark {
+  position:absolute;
+  z-index:0;
+  width:auto;
+  height:var(--watermark-size,500px);
+  opacity:var(--watermark-opacity,.04);
+  object-fit:contain;
+  pointer-events:none;
+  user-select:none;
+}
+
+.brand-watermark.is-light {
+  filter:grayscale(.16) saturate(.7) contrast(.95);
+  mix-blend-mode:multiply;
+}
+
+.brand-watermark.is-dark {
+  filter:saturate(.68) brightness(1.1);
+  mix-blend-mode:screen;
+}
+
+.brand-watermark-platform {
+  --watermark-size:530px;
+  --watermark-opacity:.036;
+  top:64px;
+  right:-120px;
+}
+
+.brand-watermark-benefits {
+  --watermark-size:500px;
+  --watermark-opacity:.05;
+  top:44px;
+  right:-105px;
+}
+
+.brand-watermark-trainers {
+  --watermark-size:470px;
+  --watermark-opacity:.032;
+  bottom:-100px;
+  left:-145px;
+}
+
+.brand-watermark-requirements {
+  --watermark-size:480px;
+  --watermark-opacity:.034;
+  top:60px;
+  right:-120px;
+}
+
+.brand-watermark-faq {
+  --watermark-size:520px;
+  --watermark-opacity:.062;
+  right:-105px;
+  bottom:-135px;
+}
+
+.brand-watermark-join {
+  --watermark-size:560px;
+  --watermark-opacity:.052;
+  bottom:-185px;
+  left:-155px;
+}
+
+.platform-react::before,
+.requirements-experience::before,
+.faq-react::before { content:none; }
+
+.benefits-experience .benefits-word { display:none; }
+
+.platform-react > .wrap,
+.benefits-experience > .wrap,
+.trainers-experience > .wrap,
+.requirements-experience > .wrap,
+.faq-react > .wrap,
+.join-react > .wrap {
+  position:relative;
+  z-index:1;
+}
+
+.trainer-studio-v2.trainer-accent-gold {
+  --trainer-accent:#efc466;
+  --trainer-accent-2:#b96f32;
+  --trainer-glow:rgba(235,184,79,.2);
+  background:linear-gradient(145deg,#0d0a12,#19121b 52%,#2a1816);
+}
+
+.trainer-portrait-v2.is-cutout {
+  display:grid;
+  place-items:end center;
+}
+
+.trainer-portrait-v2.is-cutout::before {
+  content:"";
+  position:absolute;
+  inset:7% 7% 2%;
+  border-radius:50% 50% 24% 24%;
+  background:
+    radial-gradient(circle at 50% 25%,rgba(239,196,102,.25),transparent 34%),
+    radial-gradient(circle at 50% 66%,rgba(132,73,160,.2),transparent 58%);
+}
+
+.trainer-portrait-v2.is-cutout img {
+  position:absolute;
+  left:50%;
+  bottom:0;
+  width:auto;
+  height:96%;
+  max-width:96%;
+  object-fit:contain;
+  object-position:center bottom;
+  transform:translateX(-50%);
+  filter:drop-shadow(0 25px 28px rgba(0,0,0,.34));
+}
+
+.trainer-tabs-v2 img.is-cutout {
+  object-position:50% 18%;
+  background:linear-gradient(145deg,#4b274c,#1c1525);
+}
+
+@keyframes eliteWatermarkDrift {
+  to { transform:translate3d(0,-10px,0) scale(1.012); }
+}
+
+@media (max-width:860px) {
+  .hero-brand-watermark {
+    top:430px;
+    right:-190px;
+    height:590px;
+    opacity:.048;
+  }
+
+  .brand-watermark-platform,
+  .brand-watermark-benefits,
+  .brand-watermark-requirements { right:-190px; }
+
+  .brand-watermark-trainers { left:-190px; }
+}
+
+@media (max-width:620px) {
+  .page-loader-react img { height:138px; }
+  .brand-button img { height:48px; }
+  .brand-button { gap:10px; }
+  .react-app-header img { height:36px; max-width:47px; }
+  .footer-brand-react img { height:66px; }
+
+  .hero-brand-watermark {
+    top:510px;
+    right:-175px;
+    height:485px;
+    opacity:.042;
+  }
+
+  .brand-watermark-platform {
+    --watermark-size:350px;
+    top:120px;
+    right:-150px;
+  }
+
+  .brand-watermark-benefits,
+  .brand-watermark-requirements { display:none; }
+
+  .brand-watermark-trainers {
+    --watermark-size:330px;
+    left:-145px;
+    bottom:-65px;
+  }
+
+  .brand-watermark-faq {
+    --watermark-size:390px;
+    right:-150px;
+    bottom:-95px;
+  }
+
+  .brand-watermark-join {
+    --watermark-size:420px;
+    left:-170px;
+    bottom:-125px;
+  }
+
+  .trainer-portrait-v2.is-cutout img {
+    height:98%;
+    max-width:92%;
+  }
+}
+
+@media (max-width:360px) {
+  .brand-button small { display:none; }
+  .brand-button strong { font-size:12px; }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .hero-brand-watermark { animation:none; }
+}

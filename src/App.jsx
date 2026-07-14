@@ -19,7 +19,7 @@ import { useActiveSection } from "./hooks";
 import Header from "./components/Header";
 import { BenefitsSection, FAQSection, Footer, JoinSection, PlatformSection, RequirementsSection, TrainersSection } from "./components/Sections";
 import { ActionButton, Modal, Toast } from "./components/UI";
-import logo from "../assets/sugo-logo.png";
+import agencyLogo from "../assets/elite-dorada-logo.png";
 
 const modalIcons = { Gamepad2, GraduationCap, HandHeart, HeartHandshake, MessagesSquare, Radio, ShieldCheck, Smartphone, UserRoundCheck };
 const sectionIds = ["inicio", ...navItems.map((item) => item.id).filter((id) => id !== "inicio"), "unete"];
@@ -125,8 +125,8 @@ export default function App() {
         {loading && (
           <motion.div className="page-loader-react" role="status" aria-live="polite" exit={{ opacity: 0, visibility: "hidden" }} transition={{ duration: 0.55 }}>
             <motion.div initial={{ opacity: 0, scale: 0.82 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
-              <img src={logo} alt="SUGO" />
-              <span><i />Preparando tu experiencia</span>
+              <img src={agencyLogo} alt="" width="608" height="720" />
+              <span><i />Preparando la experiencia de Élite Dorada</span>
             </motion.div>
           </motion.div>
         )}

@@ -30,9 +30,9 @@ import { agencyFeatures, benefits, countries, familyFeatures, faqs, reasons, req
 import { ActionButton, Eyebrow, Reveal, SectionHeading } from "./UI";
 import anaImage from "../../assets/ana.webp";
 import valeriaImage from "../../assets/valeria.webp";
-import camilaImage from "../../assets/camila.webp";
+import eliteTrainerImage from "../../assets/capacitadora-elite-dorada.png";
 import teamImage from "../../assets/equipo.webp";
-import logo from "../../assets/sugo-logo.png";
+import agencyLogo from "../../assets/elite-dorada-logo.png";
 
 const iconMap = {
   BadgeCheck,
@@ -50,7 +50,27 @@ const iconMap = {
   UsersRound,
 };
 
-const imageMap = { "ana.webp": anaImage, "valeria.webp": valeriaImage, "camila.webp": camilaImage };
+const imageMap = {
+  "ana.webp": anaImage,
+  "valeria.webp": valeriaImage,
+  "capacitadora-elite-dorada.png": eliteTrainerImage,
+};
+
+function BrandWatermark({ className = "" }) {
+  return (
+    <img
+      className={`brand-watermark ${className}`}
+      src={agencyLogo}
+      alt=""
+      aria-hidden="true"
+      draggable="false"
+      width="608"
+      height="720"
+      loading="lazy"
+      decoding="async"
+    />
+  );
+}
 
 const benefitDetails = [
   {
@@ -365,6 +385,7 @@ export function PlatformSection({ openInfo }) {
   return (
     <section className="platform-react" id="beneficios" aria-labelledby="platform-title">
       <div className="platform-ambient ambient-left" /><div className="platform-ambient ambient-right" />
+      <BrandWatermark className="brand-watermark-platform is-light" />
       <div className="wrap">
         <div className="platform-intro-react">
           <Reveal className="platform-intro-copy">
@@ -431,6 +452,7 @@ export function BenefitsSection() {
       <div className="benefits-word" aria-hidden="true">BENEFICIOS</div>
       <div className="benefit-orb benefit-orb-a" aria-hidden="true" />
       <div className="benefit-orb benefit-orb-b" aria-hidden="true" />
+      <BrandWatermark className="brand-watermark-benefits is-dark" />
 
       <div className="wrap">
         <div className="benefits-heading-v2">
@@ -567,6 +589,7 @@ export function TrainersSection({ openJoin, openTrainer }) {
     <section className="trainers-react trainers-experience" id="capacitadoras" aria-labelledby="trainers-title">
       <div className="trainer-ambient trainer-ambient-a" aria-hidden="true" />
       <div className="trainer-ambient trainer-ambient-b" aria-hidden="true" />
+      <BrandWatermark className="brand-watermark-trainers is-light" />
       <div className="wrap">
         <div className="trainers-heading-row-v2">
           <Reveal className="trainers-heading-copy-v2">
@@ -594,8 +617,8 @@ export function TrainersSection({ openJoin, openTrainer }) {
               <div className="trainer-portrait-stage-v2">
                 <div className="trainer-portrait-grid" aria-hidden="true" />
                 <AnimatePresence initial={false}>
-                  <motion.div className="trainer-portrait-v2" key={trainer.name} initial={{ opacity: 0, scale: 1.035 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.018 }} transition={{ duration: reduceMotion ? 0 : 0.42, ease: [0.22, 1, 0.36, 1] }}>
-                    <img src={imageMap[trainer.image]} alt={`Capacitadora ${trainer.name}`} width="700" height="720" loading="lazy" decoding="async" />
+                  <motion.div className={`trainer-portrait-v2 ${trainer.imageKind === "cutout" ? "is-cutout" : ""}`} key={trainer.name} initial={{ opacity: 0, scale: 1.035 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.018 }} transition={{ duration: reduceMotion ? 0 : 0.42, ease: [0.22, 1, 0.36, 1] }}>
+                    <img src={imageMap[trainer.image]} alt={`Retrato de la capacitadora ${trainer.name}`} width={trainer.imageWidth || 700} height={trainer.imageHeight || 720} loading="lazy" decoding="async" />
                   </motion.div>
                 </AnimatePresence>
                 <span className="trainer-portrait-number">{String(active + 1).padStart(2, "0")}</span>
@@ -610,7 +633,7 @@ export function TrainersSection({ openJoin, openTrainer }) {
                     return (
                       <button id={`trainer-tab-${index}`} type="button" role="tab" aria-selected={selected} aria-controls="trainer-panel-active" tabIndex={selected ? 0 : -1} className={selected ? "active" : ""} onClick={() => setActive(index)} onKeyDown={(event) => handleTrainerKey(event, index)} key={item.name}>
                         {selected && <motion.i className="trainer-tab-active" layoutId="trainer-tab-active" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
-                        <img src={imageMap[item.image]} alt="" width="52" height="52" loading="lazy" decoding="async" />
+                        <img className={item.imageKind === "cutout" ? "is-cutout" : ""} src={imageMap[item.image]} alt="" width={item.imageWidth || 52} height={item.imageHeight || 52} loading="lazy" decoding="async" />
                         <span><small>{String(index + 1).padStart(2, "0")} · {item.role}</small><strong>{item.name}</strong></span>
                         <ArrowRight />
                       </button>
@@ -704,6 +727,7 @@ export function RequirementsSection({ notify, openJoin }) {
     <section className="requirements-react requirements-experience" id="requisitos" aria-labelledby="requirements-title">
       <div className="requirements-ambient requirements-ambient-a" aria-hidden="true" />
       <div className="requirements-ambient requirements-ambient-b" aria-hidden="true" />
+      <BrandWatermark className="brand-watermark-requirements is-light" />
       <div className="wrap">
         <div className="requirements-heading-v2">
           <Reveal className="requirements-heading-copy-v2">
@@ -808,6 +832,7 @@ export function FAQSection({ openJoin }) {
   const [openIndex, setOpenIndex] = useState(0);
   return (
     <section className="faq-react" id="preguntas">
+      <BrandWatermark className="brand-watermark-faq is-dark" />
       <div className="wrap faq-layout-react">
         <div className="faq-intro-react">
           <SectionHeading light eyebrow="Preguntas frecuentes" title="Claridad antes de dar el primer paso." text="Lo importante es que tomes una decisión informada y con expectativas reales." />
@@ -880,7 +905,9 @@ export function JoinSection({ preferredTrainer, trainerSelectionKey, submitForm,
 
   return (
     <section className="join-react" id="unete">
-      <div className="join-glow" /><div className="wrap join-layout-react">
+      <div className="join-glow" />
+      <BrandWatermark className="brand-watermark-join is-dark" />
+      <div className="wrap join-layout-react">
         <Reveal className="join-story-react">
           <Eyebrow light>Tu siguiente capítulo</Eyebrow>
           <h2>Empieza con una conversación.</h2>
@@ -917,7 +944,7 @@ export function Footer({ agencyName }) {
   return (
     <footer className="footer-react">
       <div className="wrap footer-main-react">
-        <div className="footer-brand-react"><img src={logo} alt="SUGO" /><span><strong>{agencyName}</strong><small>Comunidad, orientación y crecimiento.</small></span></div>
+        <div className="footer-brand-react"><img src={agencyLogo} alt="" width="608" height="720" loading="lazy" decoding="async" /><span><strong>{agencyName}</strong><small>Comunidad, orientación y crecimiento.</small></span></div>
         <div className="footer-nav-react"><small>EXPLORAR</small>{["beneficios", "capacitadoras", "requisitos", "preguntas", "unete"].map((id) => <button type="button" onClick={() => goTo(id)} key={id}>{id === "unete" ? "Únete" : id.charAt(0).toUpperCase() + id.slice(1)}</button>)}</div>
         <div className="footer-contact-react"><small>COMUNIDAD</small><p>Crecer juntas también significa avanzar con respeto y organización.</p><div><button type="button" onClick={() => goTo("capacitadoras")} aria-label="Ver capacitadoras"><UsersRound /></button><button type="button" onClick={() => goTo("preguntas")} aria-label="Ver preguntas frecuentes"><MessageCircle /></button><button type="button" onClick={() => goTo("unete")} aria-label="Solicitar información"><Heart /></button></div></div>
       </div>

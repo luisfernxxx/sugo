@@ -4,7 +4,7 @@ import { ArrowDownRight, Check, Heart, Menu, MessageCircle, Sparkles, X } from "
 import { navItems } from "../data";
 import { ActionButton, KineticHeadline } from "./UI";
 import PhoneDemo from "./PhoneDemo";
-import logo from "../../assets/sugo-logo.png";
+import agencyLogo from "../../assets/elite-dorada-logo.png";
 
 const ticker = ["CAPACITACIÓN DESDE CERO", "COMUNIDAD ACTIVA", "ACOMPAÑAMIENTO REAL", "MUJERES +18", "CRECIMIENTO EN EQUIPO"];
 
@@ -31,9 +31,21 @@ export default function Header({ activeSection, openJoin, notify }) {
   return (
     <header className="hero-shell" id="inicio">
       <div className="hero-mesh mesh-one" /><div className="hero-mesh mesh-two" /><div className="hero-grid" />
+      <motion.img
+        className="hero-brand-watermark"
+        src={agencyLogo}
+        alt=""
+        aria-hidden="true"
+        draggable="false"
+        width="608"
+        height="720"
+        initial={{ opacity: 0, scale: 0.94, y: 18 }}
+        animate={{ opacity: 0.06, scale: 1, y: 0 }}
+        transition={{ duration: 1.25, ease: [0.22, 1, 0.36, 1] }}
+      />
       <nav className="top-nav wrap" aria-label="Navegación principal">
-        <button className="brand-button" type="button" onClick={() => goTo("inicio")} aria-label="Ir al inicio">
-          <img src={logo} alt="SUGO" />
+        <button className="brand-button" type="button" onClick={() => goTo("inicio")} aria-label="Élite Dorada — ir al inicio">
+          <img src={agencyLogo} alt="" width="608" height="720" />
           <span><strong>Élite Dorada</strong><small>Agencia & Familia</small></span>
         </button>
 
