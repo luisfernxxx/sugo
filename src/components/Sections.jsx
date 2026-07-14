@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
+  ArrowUpRight,
   BadgeCheck,
   BookOpenCheck,
   Building2,
@@ -16,6 +17,7 @@ import {
   HeartHandshake,
   MessageCircle,
   MessagesSquare,
+  MousePointer2,
   Radio,
   Send,
   ShieldCheck,
@@ -50,87 +52,274 @@ const iconMap = {
 
 const imageMap = { "ana.webp": anaImage, "valeria.webp": valeriaImage, "camila.webp": camilaImage };
 
-function FeaturePanel({ type, eyebrow, title, text, icon: HeaderIcon, items, onExplore }) {
+const platformTracks = [
+  {
+    id: "agency",
+    number: "01",
+    label: "Agencia",
+    shortTitle: "Dirección",
+    eyebrow: "Tu guía dentro de la plataforma",
+    title: "Dirección y respaldo",
+    text: "El conocimiento, la estructura y el seguimiento que necesitas para comenzar con confianza.",
+    icon: Building2,
+    items: agencyFeatures,
+    promises: ["Ruta organizada", "Orientación práctica", "Soporte humano"],
+  },
+  {
+    id: "family",
+    number: "02",
+    label: "Familia",
+    shortTitle: "Comunidad",
+    eyebrow: "Tu espacio para pertenecer",
+    title: "Conexión y comunidad",
+    text: "Un entorno dinámico para compartir, participar y avanzar junto a otras integrantes.",
+    icon: HeartHandshake,
+    items: familyFeatures,
+    promises: ["Conexiones reales", "Actividades compartidas", "Apoyo respetuoso"],
+  },
+];
+
+const platformFeatureMeta = {
+  capacitacion: { kicker: "Aprendizaje guiado", signal: "Desde cero", points: ["Funciones esenciales", "Práctica progresiva"] },
+  acompanamiento: { kicker: "Soporte humano", signal: "Siempre cerca", points: ["Dudas resueltas", "Seguimiento real"] },
+  organizacion: { kicker: "Proceso confiable", signal: "Ruta clara", points: ["Reglas simples", "Comunicación constante"] },
+  salas: { kicker: "Participación activa", signal: "En vivo", points: ["Encuentros internos", "Nuevas conexiones"] },
+  juegos: { kicker: "Integración del equipo", signal: "Experiencias", points: ["Retos compartidos", "Dinámicas internas"] },
+  apoyo: { kicker: "Comunidad presente", signal: "Juntas", points: ["Respeto mutuo", "Motivación cercana"] },
+};
+
+const platformJourney = [
+  [Sparkles, "01", "Descubre", "Conoce la plataforma"],
+  [BookOpenCheck, "02", "Aprende", "Avanza paso a paso"],
+  [HeartHandshake, "03", "Conecta", "Intégrate a la familia"],
+  [TrendingUp, "04", "Avanza", "Crece con seguimiento"],
+];
+
+function PlatformExperience({ activeTrack, setActiveTrack, openInfo }) {
+  const [activeFeature, setActiveFeature] = useState(0);
+  const consoleRef = useRef(null);
+  const reduceMotion = useReducedMotion();
+  const trackIndex = platformTracks.findIndex((item) => item.id === activeTrack);
+  const track = platformTracks[trackIndex];
+  const TrackIcon = track.icon;
+  const feature = track.items[activeFeature];
+  const FeatureIcon = iconMap[feature.icon];
+  const meta = platformFeatureMeta[feature.modal];
+
+  const selectTrack = (index) => {
+    setActiveTrack(platformTracks[index].id);
+    setActiveFeature(0);
+  };
+
+  const handleTrackKey = (event, index) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const next = event.key === "Home"
+      ? 0
+      : event.key === "End"
+        ? platformTracks.length - 1
+        : (index + (event.key === "ArrowRight" ? 1 : -1) + platformTracks.length) % platformTracks.length;
+    selectTrack(next);
+    window.requestAnimationFrame(() => document.getElementById(`platform-track-${platformTracks[next].id}`)?.focus());
+  };
+
+  const handleFeatureKey = (event, index) => {
+    if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const forward = event.key === "ArrowDown" || event.key === "ArrowRight";
+    const next = event.key === "Home"
+      ? 0
+      : event.key === "End"
+        ? track.items.length - 1
+        : (index + (forward ? 1 : -1) + track.items.length) % track.items.length;
+    setActiveFeature(next);
+    window.requestAnimationFrame(() => document.getElementById(`platform-feature-${track.id}-${next}`)?.focus());
+  };
+
+  const updatePointer = (event) => {
+    if (reduceMotion || event.pointerType === "touch" || !consoleRef.current) return;
+    const rect = consoleRef.current.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+    consoleRef.current.style.setProperty("--pointer-x", `${x * 100}%`);
+    consoleRef.current.style.setProperty("--pointer-y", `${y * 100}%`);
+    consoleRef.current.style.setProperty("--tilt-x", `${(0.5 - y) * 2.2}deg`);
+    consoleRef.current.style.setProperty("--tilt-y", `${(x - 0.5) * 2.2}deg`);
+  };
+
+  const resetPointer = () => {
+    if (!consoleRef.current) return;
+    consoleRef.current.style.setProperty("--pointer-x", "50%");
+    consoleRef.current.style.setProperty("--pointer-y", "35%");
+    consoleRef.current.style.setProperty("--tilt-x", "0deg");
+    consoleRef.current.style.setProperty("--tilt-y", "0deg");
+  };
+
   return (
-    <Reveal className={`feature-panel-react feature-panel-${type}`}>
-      <div className="feature-panel-index"><span>{type === "agency" ? "01" : "02"}</span><i /><small>{type === "agency" ? "AGENCIA" : "FAMILIA"}</small></div>
-      <div className="feature-panel-header">
-        <motion.span whileHover={{ rotate: 8, scale: 1.08 }}><HeaderIcon /></motion.span>
-        <div><small>{eyebrow}</small><h3>{title}</h3></div>
-      </div>
-      <p className="feature-panel-copy">{text}</p>
-      <div className="feature-card-grid">
-        {items.map((item, index) => {
-          const Icon = iconMap[item.icon];
-          return (
-            <motion.article className="feature-card-react" whileHover={{ y: -8 }} transition={{ type: "spring", stiffness: 320, damping: 22 }} key={item.title}>
-              <div className="feature-card-top"><span><Icon /></span><small>{item.number}</small></div>
-              <h4>{item.title}</h4><p>{item.text}</p>
-              <button type="button" onClick={() => onExplore(item.modal)}>Explorar <ArrowRight /></button>
-            </motion.article>
-          );
-        })}
+    <Reveal className="platform-console-reveal">
+      <div
+        ref={consoleRef}
+        className={`platform-experience-console is-${track.id}`}
+        onPointerMove={updatePointer}
+        onPointerLeave={resetPointer}
+      >
+        <div className="platform-console-glow" aria-hidden="true" />
+        <div className="platform-console-grid" aria-hidden="true" />
+
+        <div className="platform-console-toolbar">
+          <div className="platform-console-label"><span><MousePointer2 /></span><div><small>EXPERIENCIA INTERACTIVA</small><strong>Explora tu acompañamiento</strong></div></div>
+
+          <div className="platform-track-tabs" role="tablist" aria-label="Explorar agencia y familia">
+            {platformTracks.map((item, index) => {
+              const TrackIcon = item.icon;
+              const selected = item.id === track.id;
+              return (
+                <button
+                  id={`platform-track-${item.id}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={selected}
+                  aria-controls={`platform-track-panel-${item.id}`}
+                  tabIndex={selected ? 0 : -1}
+                  onClick={() => selectTrack(index)}
+                  onKeyDown={(event) => handleTrackKey(event, index)}
+                  key={item.id}
+                >
+                  {selected && <motion.i className="platform-track-active" layoutId="platform-track-active" transition={{ type: "spring", stiffness: 380, damping: 32 }} />}
+                  <span><TrackIcon /></span><div><small>{item.number} · {item.label}</small><strong>{item.shortTitle}</strong></div>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="platform-console-status"><i /><span>Interactivo</span></div>
+        </div>
+
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            id={`platform-track-panel-${track.id}`}
+            className="platform-console-body"
+            role="tabpanel"
+            aria-labelledby={`platform-track-${track.id}`}
+            key={track.id}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12, pointerEvents: "none" }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <section className="platform-track-summary">
+              <span className="platform-track-number">{track.number}</span>
+              <motion.span className="platform-track-icon" initial={{ scale: 0.82, rotate: -8 }} animate={{ scale: 1, rotate: 0 }}><TrackIcon /></motion.span>
+              <small>{track.eyebrow}</small>
+              <h3>{track.title}</h3>
+              <p>{track.text}</p>
+              <div className="platform-track-promises">{track.promises.map((promise) => <span key={promise}><CircleCheck />{promise}</span>)}</div>
+            </section>
+
+            <div className="platform-feature-rail" role="tablist" aria-label={`Opciones de ${track.label}`} aria-orientation="vertical">
+              <div className="platform-feature-rail-title"><span>ELIGE UNA RUTA</span><small>{String(activeFeature + 1).padStart(2, "0")} / 03</small></div>
+              {track.items.map((item, index) => {
+                const ItemIcon = iconMap[item.icon];
+                const selected = index === activeFeature;
+                return (
+                  <button
+                    id={`platform-feature-${track.id}-${index}`}
+                    type="button"
+                    role="tab"
+                    aria-selected={selected}
+                    aria-controls={`platform-feature-panel-${track.id}-${index}`}
+                    tabIndex={selected ? 0 : -1}
+                    className={selected ? "active" : ""}
+                    onClick={() => setActiveFeature(index)}
+                    onFocus={() => setActiveFeature(index)}
+                    onPointerEnter={(event) => event.pointerType === "mouse" && setActiveFeature(index)}
+                    onKeyDown={(event) => handleFeatureKey(event, index)}
+                    key={item.title}
+                  >
+                    {selected && <motion.i className="platform-feature-active" layoutId={`platform-feature-active-${track.id}`} />}
+                    <span className="platform-feature-number">{item.number}</span>
+                    <span className="platform-feature-icon"><ItemIcon /></span>
+                    <span className="platform-feature-name"><small>{platformFeatureMeta[item.modal].signal}</small><strong>{item.title}</strong></span>
+                    <ArrowRight />
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="platform-feature-stage-tilt">
+              <AnimatePresence initial={false}>
+                <motion.article
+                  id={`platform-feature-panel-${track.id}-${activeFeature}`}
+                  className="platform-feature-stage"
+                  role="tabpanel"
+                  aria-labelledby={`platform-feature-${track.id}-${activeFeature}`}
+                  key={`${track.id}-${feature.modal}`}
+                  initial={{ opacity: 0, x: 22, scale: 0.98 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -18, scale: 0.985 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <div className="platform-stage-top"><span><i /> DETALLE ACTIVO</span><small>{feature.number} / 03</small></div>
+                  <div className="platform-stage-symbol"><i /><i /><motion.span initial={{ rotate: -10, scale: 0.8 }} animate={{ rotate: 0, scale: 1 }} transition={{ type: "spring", stiffness: 280, damping: 20 }}><FeatureIcon /></motion.span></div>
+                  <div className="platform-stage-copy">
+                    <small>{track.label} · {meta.kicker}</small>
+                    <h3>{feature.title}</h3>
+                    <p>{feature.text}</p>
+                    <ul>{meta.points.map((point) => <li key={point}><CircleCheck />{point}</li>)}</ul>
+                    <button type="button" onClick={() => openInfo(feature.modal)} aria-label={`Explorar ${feature.title}`}>Explorar esta opción <ArrowUpRight /></button>
+                  </div>
+                  <div className="platform-stage-progress"><span style={{ width: `${((activeFeature + 1) / track.items.length) * 100}%` }} /></div>
+                </motion.article>
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="platform-console-journey">
+          <div className="platform-journey-heading"><small>UNA RUTA COMPLETA</small><strong>De descubrir a avanzar, siempre acompañada.</strong></div>
+          <div className="platform-journey-steps">
+            <div className="platform-journey-line" aria-hidden="true"><motion.i initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }} /></div>
+            <ol>
+              {platformJourney.map(([Icon, number, title, text], index) => (
+                <motion.li initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 + index * 0.09 }} key={number}>
+                  <span><Icon /></span><div><small>{number}</small><strong>{title}</strong><p>{text}</p></div>
+                </motion.li>
+              ))}
+            </ol>
+          </div>
+        </div>
       </div>
     </Reveal>
   );
 }
 
 export function PlatformSection({ openInfo }) {
+  const [activeTrack, setActiveTrack] = useState("agency");
+
   return (
-    <section className="platform-react" id="beneficios">
+    <section className="platform-react" id="beneficios" aria-labelledby="platform-title">
       <div className="platform-ambient ambient-left" /><div className="platform-ambient ambient-right" />
       <div className="wrap">
         <div className="platform-intro-react">
           <Reveal className="platform-intro-copy">
             <Eyebrow>Una experiencia con dirección</Eyebrow>
-            <h2>Más que entrar a una app.<br /><span>Es saber cómo avanzar.</span></h2>
+            <h2 id="platform-title"><span>Más que entrar a una app.</span><strong>Es saber cómo avanzar.</strong></h2>
             <p>SUGO te conecta con nuevas experiencias. Élite Dorada añade la estructura, la orientación y la comunidad que transforman ese primer paso en una ruta clara.</p>
             <button className="editorial-link" type="button" onClick={() => openInfo("sugo")}>Entender cómo funciona <ArrowRight /></button>
           </Reveal>
 
-          <Reveal className="platform-signature" delay={0.1}>
-            <span className="signature-number">18+</span>
-            <div><small>UNA COMUNIDAD DISEÑADA PARA</small><strong>Mujeres listas para aprender, participar y crecer acompañadas.</strong></div>
-            <Sparkles />
+          <Reveal className="platform-manifesto-card" delay={0.1}>
+            <div className="platform-manifesto-head"><span>18+</span><div><small>COMUNIDAD PARA MUJERES</small><strong>Un espacio adulto, organizado y acompañado.</strong></div><i /></div>
+            <div className="platform-manifesto-flow">
+              <motion.div whileHover={{ y: -4 }}><span><Building2 /></span><div><small>AGENCIA</small><strong>Te orienta</strong></div></motion.div>
+              <ArrowRight />
+              <motion.div whileHover={{ y: -4 }}><span><HeartHandshake /></span><div><small>FAMILIA</small><strong>Te conecta</strong></div></motion.div>
+            </div>
+            <p><Sparkles /> Dos formas de acompañarte. Una sola experiencia para avanzar.</p>
           </Reveal>
         </div>
 
-        <div className="feature-panels-react">
-          <FeaturePanel
-            type="agency"
-            eyebrow="Tu guía dentro de la plataforma"
-            title="Dirección y respaldo"
-            text="El conocimiento y la estructura que necesitas para comenzar con confianza."
-            icon={Building2}
-            items={agencyFeatures}
-            onExplore={openInfo}
-          />
-          <FeaturePanel
-            type="family"
-            eyebrow="Tu espacio para pertenecer"
-            title="Conexión y comunidad"
-            text="Un entorno dinámico para compartir, participar y avanzar junto a otras integrantes."
-            icon={HeartHandshake}
-            items={familyFeatures}
-            onExplore={openInfo}
-          />
-        </div>
-
-        <div className="journey-react">
-          <SectionHeading eyebrow="El proceso" title="Una ruta simple. Un acompañamiento real." text="Cada etapa tiene un propósito y una persona dispuesta a orientarte." />
-          <div className="journey-track">
-            {[
-              [Sparkles, "01", "Descubre", "Conoce la plataforma y resuelve tus primeras dudas."],
-              [BookOpenCheck, "02", "Aprende", "Recibe una capacitación clara y práctica."],
-              [HeartHandshake, "03", "Conecta", "Intégrate a la familia y participa en actividades."],
-              [TrendingUp, "04", "Avanza", "Mejora con seguimiento y constancia."],
-            ].map(([Icon, number, title, text], index) => (
-              <Reveal className="journey-step" delay={index * 0.08} key={number}>
-                <span className="journey-dot"><Icon /></span><small>{number}</small><h3>{title}</h3><p>{text}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
+        <PlatformExperience activeTrack={activeTrack} setActiveTrack={setActiveTrack} openInfo={openInfo} />
       </div>
     </section>
   );
