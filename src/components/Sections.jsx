@@ -52,6 +52,52 @@ const iconMap = {
 
 const imageMap = { "ana.webp": anaImage, "valeria.webp": valeriaImage, "camila.webp": camilaImage };
 
+const benefitDetails = [
+  {
+    label: "Aterrizaje guiado",
+    outcome: "Llegas sabiendo qué hacer y cuál es tu siguiente paso.",
+    signals: ["Registro claro", "Primer recorrido"],
+  },
+  {
+    label: "Ritmo sostenible",
+    outcome: "Aprendes con orden, sin sentir que tienes que dominarlo todo de inmediato.",
+    signals: ["Explicaciones simples", "Avance a tu ritmo"],
+  },
+  {
+    label: "Presencia activa",
+    outcome: "Siempre encuentras una nueva oportunidad para participar y practicar.",
+    signals: ["Agenda continua", "Experiencias en vivo"],
+  },
+  {
+    label: "Confianza compartida",
+    outcome: "Participas dentro de acuerdos claros que cuidan a toda la comunidad.",
+    signals: ["Normas visibles", "Espacio cuidado"],
+  },
+  {
+    label: "Crecimiento en red",
+    outcome: "Cada logro se vuelve más fácil de sostener cuando avanzas acompañada.",
+    signals: ["Apoyo cercano", "Logros compartidos"],
+  },
+];
+
+const trainerDetails = [
+  {
+    promise: "Tus primeros pasos, sin sentirte perdida.",
+    quote: "Primero entendemos dónde estás; después construimos una ruta sencilla para comenzar.",
+    skills: ["Registro guiado", "Configuración", "Primer recorrido"],
+  },
+  {
+    promise: "Participar con naturalidad también se aprende.",
+    quote: "Te muestro cómo entrar, conversar y disfrutar cada dinámica con confianza.",
+    skills: ["Salas en vivo", "Eventos", "Dinámicas"],
+  },
+  {
+    promise: "Una ruta clara para que no pierdas el impulso.",
+    quote: "Estoy para resolver lo que aparezca y ayudarte a reconocer cada avance.",
+    skills: ["Seguimiento", "Resolución de dudas", "Progreso"],
+  },
+];
+
 const platformTracks = [
   {
     id: "agency",
@@ -327,7 +373,9 @@ export function PlatformSection({ openInfo }) {
 
 export function BenefitsSection() {
   const [active, setActive] = useState(0);
+  const reduceMotion = useReducedMotion();
   const ActiveIcon = iconMap[benefits[active].icon];
+  const activeDetail = benefitDetails[active];
 
   const handleBenefitKey = (event, index) => {
     if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
@@ -342,31 +390,125 @@ export function BenefitsSection() {
     window.requestAnimationFrame(() => document.getElementById(`benefit-tab-${next}`)?.focus());
   };
 
+  const handleBenefitPointer = (event) => {
+    if (reduceMotion || event.pointerType !== "mouse") return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width;
+    const y = (event.clientY - bounds.top) / bounds.height;
+    event.currentTarget.style.setProperty("--benefit-x", `${x * 100}%`);
+    event.currentTarget.style.setProperty("--benefit-y", `${y * 100}%`);
+    event.currentTarget.style.setProperty("--benefit-rotate-x", `${(0.5 - y) * 1.5}deg`);
+    event.currentTarget.style.setProperty("--benefit-rotate-y", `${(x - 0.5) * 1.5}deg`);
+  };
+
+  const resetBenefitPointer = (event) => {
+    event.currentTarget.style.setProperty("--benefit-rotate-x", "0deg");
+    event.currentTarget.style.setProperty("--benefit-rotate-y", "0deg");
+  };
+
   return (
-    <section className="benefits-react">
+    <section className="benefits-react benefits-experience" id="beneficios-comunidad" aria-labelledby="benefits-experience-title">
       <div className="benefits-word" aria-hidden="true">BENEFICIOS</div>
-      <div className="wrap benefits-layout-react">
-        <div className="benefits-copy-react">
-          <SectionHeading light eyebrow="Lo que cambia cuando no avanzas sola" title="Una comunidad que suma en cada etapa." text="Selecciona un beneficio y descubre cómo se vive dentro de Élite Dorada." />
-          <div className="benefit-selector" role="tablist" aria-label="Beneficios">
-            {benefits.map((benefit, index) => {
-              const Icon = iconMap[benefit.icon];
-              return <button id={`benefit-tab-${index}`} type="button" role="tab" aria-controls={`benefit-panel-${index}`} aria-selected={active === index} tabIndex={active === index ? 0 : -1} className={active === index ? "active" : ""} onClick={() => setActive(index)} onKeyDown={(event) => handleBenefitKey(event, index)} key={benefit.title}><span><Icon /></span>{benefit.title}<ArrowRight /></button>;
-            })}
-          </div>
+      <div className="benefit-orb benefit-orb-a" aria-hidden="true" />
+      <div className="benefit-orb benefit-orb-b" aria-hidden="true" />
+
+      <div className="wrap">
+        <div className="benefits-heading-v2">
+          <Reveal className="benefits-heading-copy">
+            <Eyebrow light>Lo que cambia cuando no avanzas sola</Eyebrow>
+            <h2 id="benefits-experience-title">Una comunidad que convierte cada etapa en <span>impulso.</span></h2>
+            <p>No son beneficios aislados. Es una ruta de apoyo que comienza contigo y crece a medida que participas.</p>
+          </Reveal>
+          <Reveal className="benefits-signal-card" delay={0.08}>
+            <span>05</span>
+            <div><small>CAPAS DE ACOMPAÑAMIENTO</small><strong>Una experiencia conectada de principio a fin.</strong></div>
+            <i><Sparkles /></i>
+          </Reveal>
         </div>
 
-        <Reveal className="benefit-spotlight">
-          <AnimatePresence mode="wait">
-            <motion.div id={`benefit-panel-${active}`} role="tabpanel" aria-labelledby={`benefit-tab-${active}`} key={active} initial={{ opacity: 0, y: 20, rotate: -1 }} animate={{ opacity: 1, y: 0, rotate: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.38 }}>
-              <span className="spotlight-icon"><ActiveIcon /></span>
-              <small>BENEFICIO {String(active + 1).padStart(2, "0")}</small>
-              <h3>{benefits[active].title}</h3>
-              <p>{benefits[active].text}</p>
-              <div className="spotlight-line"><i style={{ width: `${((active + 1) / benefits.length) * 100}%` }} /></div>
-              <span className="spotlight-count">0{active + 1}<small>/0{benefits.length}</small></span>
-            </motion.div>
-          </AnimatePresence>
+        <Reveal className="benefit-command-react" delay={0.08}>
+          <div className="benefit-command-surface" onPointerMove={handleBenefitPointer} onPointerLeave={resetBenefitPointer}>
+            <div className="benefit-command-glow" aria-hidden="true" />
+            <header className="benefit-command-toolbar">
+              <span className="benefit-live"><i /> RECORRIDO ACTIVO</span>
+              <span className="benefit-command-hint"><MousePointer2 /> Elige una etapa para explorarla</span>
+              <strong>{String(active + 1).padStart(2, "0")} <small>/ {String(benefits.length).padStart(2, "0")}</small></strong>
+            </header>
+
+            <div className="benefit-command-body">
+              <div className="benefit-selector-v2" role="tablist" aria-label="Beneficios de la comunidad">
+                <span className="benefit-selector-label">TU RUTA DE APOYO</span>
+                {benefits.map((benefit, index) => {
+                  const Icon = iconMap[benefit.icon];
+                  const selected = active === index;
+                  return (
+                    <button
+                      id={`benefit-tab-${index}`}
+                      type="button"
+                      role="tab"
+                      aria-controls="benefit-panel-active"
+                      aria-selected={selected}
+                      tabIndex={selected ? 0 : -1}
+                      className={selected ? "active" : ""}
+                      onClick={() => setActive(index)}
+                      onPointerEnter={(event) => event.pointerType === "mouse" && setActive(index)}
+                      onKeyDown={(event) => handleBenefitKey(event, index)}
+                      key={benefit.title}
+                    >
+                      {selected && <motion.i className="benefit-selector-active" layoutId="benefit-selector-active" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
+                      <small>{String(index + 1).padStart(2, "0")}</small>
+                      <span><Icon /></span>
+                      <div><strong>{benefit.title}</strong><small>{benefitDetails[index].label}</small></div>
+                      <ArrowRight />
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="benefit-stage-tilt">
+                  <motion.article
+                    id="benefit-panel-active"
+                    role="tabpanel"
+                    aria-labelledby={`benefit-tab-${active}`}
+                    tabIndex={0}
+                    className="benefit-stage-v2"
+                    key={active}
+                    initial={{ opacity: 0, x: 24, scale: 0.985 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    transition={{ duration: reduceMotion ? 0 : 0.34, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <span className="benefit-stage-number" aria-hidden="true">{String(active + 1).padStart(2, "0")}</span>
+                    <div className="benefit-stage-top">
+                      <motion.span className="benefit-stage-icon" initial={{ rotate: -8, scale: 0.85 }} animate={{ rotate: 0, scale: 1 }}><ActiveIcon /></motion.span>
+                      <span className="benefit-stage-status"><i /> APOYO DISPONIBLE</span>
+                    </div>
+                    <div className="benefit-stage-copy-v2">
+                      <small>ETAPA {String(active + 1).padStart(2, "0")} · {activeDetail.label}</small>
+                      <h3>{benefits[active].title}</h3>
+                      <p>{benefits[active].text}</p>
+                    </div>
+                    <div className="benefit-stage-signals">
+                      {activeDetail.signals.map((signal) => <span key={signal}><CircleCheck />{signal}</span>)}
+                    </div>
+                    <div className="benefit-outcome">
+                      <BadgeCheck />
+                      <div><small>LO QUE CAMBIA PARA TI</small><strong>{activeDetail.outcome}</strong></div>
+                    </div>
+                    <button className="benefit-team-link" type="button" onClick={() => document.getElementById("capacitadoras")?.scrollIntoView({ behavior: "smooth" })}>Conocer quién te acompaña <ArrowUpRight /></button>
+                  </motion.article>
+              </div>
+            </div>
+
+            <div className="benefit-route-v2" aria-label="Progreso por las cinco etapas">
+              <div className="benefit-route-line"><motion.i animate={{ width: `${((active + 1) / benefits.length) * 100}%` }} transition={{ duration: reduceMotion ? 0 : 0.42 }} /></div>
+              {benefitDetails.map((detail, index) => (
+                <button className={index === active ? "active" : index < active ? "complete" : ""} type="button" onClick={() => setActive(index)} aria-label={`Ver ${benefits[index].title}`} key={detail.label}>
+                  <i>{index < active ? <Check /> : String(index + 1).padStart(2, "0")}</i>
+                  <span><small>ETAPA {String(index + 1).padStart(2, "0")}</small><strong>{detail.label}</strong></span>
+                </button>
+              ))}
+            </div>
+          </div>
         </Reveal>
       </div>
     </section>
@@ -374,30 +516,113 @@ export function BenefitsSection() {
 }
 
 export function TrainersSection({ openJoin, openTrainer }) {
-  return (
-    <section className="trainers-react wrap" id="capacitadoras">
-      <div className="trainers-heading-row">
-        <SectionHeading eyebrow="Liderazgo que acompaña" title="Personas reales detrás de cada avance." text="Conoce a las capacitadoras que convertirán tus preguntas en pasos claros." />
-        <Reveal className="trainer-heading-note"><UsersRound /><span><strong>3 perfiles</strong><small>Un mismo compromiso contigo</small></span></Reveal>
-      </div>
+  const [active, setActive] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const trainer = trainers[active];
+  const detail = trainerDetails[active];
 
-      <div className="trainer-grid-react">
-        {trainers.map((trainer, index) => (
-          <Reveal className={`trainer-card-react trainer-${trainer.accent}`} delay={index * 0.1} key={trainer.name}>
-            <div className="trainer-image-wrap">
-              <img src={imageMap[trainer.image]} alt={`Capacitadora ${trainer.name}`} />
-              <span className="trainer-number">0{index + 1}</span>
-              <span className="trainer-availability"><i /> DISPONIBLE</span>
-            </div>
-            <div className="trainer-card-content">
-              <small>{trainer.role}</small><h3>{trainer.name}</h3><p>{trainer.text}</p>
-              <div>
-                <button type="button" onClick={() => openTrainer(trainer)}>Conocer su función <ArrowRight /></button>
-                <motion.button className="trainer-select" type="button" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => openJoin(trainer.name)} aria-label={`Elegir a ${trainer.name}`}><Check /></motion.button>
+  const handleTrainerKey = (event, index) => {
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const forward = event.key === "ArrowRight" || event.key === "ArrowDown";
+    const next = event.key === "Home"
+      ? 0
+      : event.key === "End"
+        ? trainers.length - 1
+        : (index + (forward ? 1 : -1) + trainers.length) % trainers.length;
+    setActive(next);
+    window.requestAnimationFrame(() => document.getElementById(`trainer-tab-${next}`)?.focus());
+  };
+
+  const handleTrainerPointer = (event) => {
+    if (reduceMotion || event.pointerType !== "mouse") return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width;
+    const y = (event.clientY - bounds.top) / bounds.height;
+    event.currentTarget.style.setProperty("--trainer-x", `${x * 100}%`);
+    event.currentTarget.style.setProperty("--trainer-y", `${y * 100}%`);
+  };
+
+  return (
+    <section className="trainers-react trainers-experience" id="capacitadoras" aria-labelledby="trainers-title">
+      <div className="trainer-ambient trainer-ambient-a" aria-hidden="true" />
+      <div className="trainer-ambient trainer-ambient-b" aria-hidden="true" />
+      <div className="wrap">
+        <div className="trainers-heading-row-v2">
+          <Reveal className="trainers-heading-copy-v2">
+            <Eyebrow>Liderazgo que acompaña</Eyebrow>
+            <h2 id="trainers-title">Personas reales detrás de <span>cada avance.</span></h2>
+            <p>No hablas con un sistema automático. Conoces a la persona que puede orientarte según el momento de tu proceso.</p>
+          </Reveal>
+          <Reveal className="trainer-heading-note-v2" delay={0.08}>
+            <span>{String(trainers.length).padStart(2, "0")}</span>
+            <div><small>PERFILES ESPECIALIZADOS</small><strong>Un mismo compromiso contigo.</strong></div>
+            <i><UsersRound /></i>
+          </Reveal>
+        </div>
+
+        <Reveal className="trainer-studio-wrap" delay={0.08}>
+          <div className={`trainer-studio-v2 trainer-accent-${trainer.accent}`} onPointerMove={handleTrainerPointer}>
+            <div className="trainer-studio-glow" aria-hidden="true" />
+            <header className="trainer-studio-toolbar">
+              <span><i /> EQUIPO CONECTADO</span>
+              <div><strong>Estudio de acompañamiento</strong><small>ÉLITE DORADA · SUGO</small></div>
+              <span>PERFIL {String(active + 1).padStart(2, "0")} / {String(trainers.length).padStart(2, "0")}</span>
+            </header>
+
+            <div className="trainer-studio-main">
+              <div className="trainer-portrait-stage-v2">
+                <div className="trainer-portrait-grid" aria-hidden="true" />
+                <AnimatePresence initial={false}>
+                  <motion.div className="trainer-portrait-v2" key={trainer.name} initial={{ opacity: 0, scale: 1.035 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.018 }} transition={{ duration: reduceMotion ? 0 : 0.42, ease: [0.22, 1, 0.36, 1] }}>
+                    <img src={imageMap[trainer.image]} alt={`Capacitadora ${trainer.name}`} width="700" height="720" loading="lazy" decoding="async" />
+                  </motion.div>
+                </AnimatePresence>
+                <span className="trainer-portrait-number">{String(active + 1).padStart(2, "0")}</span>
+                <span className="trainer-portrait-availability"><i /> PERFIL ACTIVO</span>
+                <div className="trainer-portrait-caption"><small>ÁREA PRINCIPAL</small><strong>{trainer.role}</strong></div>
+              </div>
+
+              <div className="trainer-profile-console">
+                <div className="trainer-tabs-v2" role="tablist" aria-label="Seleccionar capacitadora">
+                  {trainers.map((item, index) => {
+                    const selected = active === index;
+                    return (
+                      <button id={`trainer-tab-${index}`} type="button" role="tab" aria-selected={selected} aria-controls="trainer-panel-active" tabIndex={selected ? 0 : -1} className={selected ? "active" : ""} onClick={() => setActive(index)} onKeyDown={(event) => handleTrainerKey(event, index)} key={item.name}>
+                        {selected && <motion.i className="trainer-tab-active" layoutId="trainer-tab-active" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
+                        <img src={imageMap[item.image]} alt="" width="52" height="52" loading="lazy" decoding="async" />
+                        <span><small>{String(index + 1).padStart(2, "0")} · {item.role}</small><strong>{item.name}</strong></span>
+                        <ArrowRight />
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <motion.article id="trainer-panel-active" role="tabpanel" aria-labelledby={`trainer-tab-${active}`} tabIndex={0} className="trainer-profile-v2" key={trainer.name} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduceMotion ? 0 : 0.34, ease: [0.22, 1, 0.36, 1] }}>
+                  <small>{trainer.role} · PERFIL {String(active + 1).padStart(2, "0")}</small>
+                  <h3>{detail.promise}</h3>
+                  <p>{trainer.text}</p>
+                  <blockquote><Sparkles /><span>“{detail.quote}”</span></blockquote>
+                  <div className="trainer-skills-v2">{detail.skills.map((skill) => <span key={skill}><CircleCheck />{skill}</span>)}</div>
+                  <div className="trainer-actions-v2">
+                    <motion.button type="button" onClick={() => openJoin(trainer.name)} whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>Elegir a {trainer.name} <ArrowRight /></motion.button>
+                    <button type="button" onClick={() => openTrainer(trainer)}>Conocer su función <ArrowUpRight /></button>
+                  </div>
+                </motion.article>
               </div>
             </div>
-          </Reveal>
-        ))}
+
+            <footer className="trainer-studio-footer">
+              {[
+                [MessageCircle, "Respuesta humana", "Dudas atendidas con claridad"],
+                [TrendingUp, "Ruta progresiva", "Pasos acordes a tu momento"],
+                [HeartHandshake, "Apoyo continuo", "Acompañamiento que permanece"],
+              ].map(([Icon, title, text], index) => (
+                <div key={title}><span><Icon /></span><div><small>0{index + 1}</small><strong>{title}</strong><p>{text}</p></div></div>
+              ))}
+            </footer>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -487,7 +712,7 @@ export function FAQSection({ openJoin }) {
 
 const initialForm = { name: "", age: "", country: "", phone: "", experience: "Sin experiencia", trainer: "Cualquiera", message: "", consent: false };
 
-export function JoinSection({ preferredTrainer, submitForm, notify }) {
+export function JoinSection({ preferredTrainer, trainerSelectionKey, submitForm, notify }) {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const fieldRefs = useRef({});
@@ -506,7 +731,7 @@ export function JoinSection({ preferredTrainer, submitForm, notify }) {
 
   useEffect(() => {
     setForm((current) => ({ ...current, trainer: preferredTrainer || "Cualquiera" }));
-  }, [preferredTrainer]);
+  }, [preferredTrainer, trainerSelectionKey]);
 
   const validate = () => {
     const next = {};

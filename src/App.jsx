@@ -29,6 +29,7 @@ export default function App() {
   const [info, setInfo] = useState(null);
   const [joinOpen, setJoinOpen] = useState(false);
   const [preferredTrainer, setPreferredTrainer] = useState("");
+  const [trainerSelectionKey, setTrainerSelectionKey] = useState(0);
   const [toast, setToast] = useState("");
   const [showBackTop, setShowBackTop] = useState(false);
   const toastTimer = useRef(null);
@@ -67,11 +68,13 @@ export default function App() {
       eyebrow: trainer.role,
       title: `Capacitadora ${trainer.name}`,
       text: trainer.text,
+      trainer: trainer.name,
     });
   };
 
   const openJoin = (trainer = "") => {
     setPreferredTrainer(trainer);
+    setTrainerSelectionKey((current) => current + 1);
     setJoinOpen(true);
   };
 
@@ -138,7 +141,7 @@ export default function App() {
           <TrainersSection openJoin={openJoin} openTrainer={openTrainer} />
           <RequirementsSection notify={notify} />
           <FAQSection openJoin={openJoin} />
-          <JoinSection preferredTrainer={preferredTrainer} submitForm={submitForm} notify={notify} />
+          <JoinSection preferredTrainer={preferredTrainer} trainerSelectionKey={trainerSelectionKey} submitForm={submitForm} notify={notify} />
         </main>
         <Footer agencyName={siteConfig.agencyName} />
 
@@ -149,7 +152,7 @@ export default function App() {
       </div>
 
       <Modal open={Boolean(info)} onClose={() => setInfo(null)} labelledBy="info-modal-title">
-        {info && <div className="info-modal-content"><motion.span className="modal-icon-react" initial={{ rotate: -12, scale: 0.8 }} animate={{ rotate: 0, scale: 1 }}><InfoIcon /></motion.span><small>{info.eyebrow}</small><h2 id="info-modal-title">{info.title}</h2><p>{info.text}</p><div className="modal-actions-react"><ActionButton onClick={() => { setInfo(null); openJoin(); }}>Solicitar información</ActionButton><button type="button" onClick={() => setInfo(null)}>Cerrar</button></div></div>}
+        {info && <div className="info-modal-content"><motion.span className="modal-icon-react" initial={{ rotate: -12, scale: 0.8 }} animate={{ rotate: 0, scale: 1 }}><InfoIcon /></motion.span><small>{info.eyebrow}</small><h2 id="info-modal-title">{info.title}</h2><p>{info.text}</p><div className="modal-actions-react"><ActionButton onClick={() => { const trainer = info.trainer || ""; setInfo(null); openJoin(trainer); }}>Solicitar información</ActionButton><button type="button" onClick={() => setInfo(null)}>Cerrar</button></div></div>}
       </Modal>
 
       <Modal open={joinOpen} onClose={() => setJoinOpen(false)} labelledBy="join-modal-title">
